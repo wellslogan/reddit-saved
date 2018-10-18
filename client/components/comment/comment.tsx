@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { RedditComment, RedditApp } from 'src/models';
-import { redditLink as makeRedditLink, htmlDecode } from 'src/utils/helpers';
+import { RedditComment, RedditApp } from '@models';
+import { redditLink as makeRedditLink, htmlDecode } from '@utils/helpers';
 
 type CommentProps = {
   comment: RedditComment;

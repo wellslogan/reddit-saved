@@ -237,4 +237,5 @@ _Pvt_Extensions
 .fake/
 
 .vscode/
+.dist/
 testData.js

@@ -2,13 +2,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@models": ["src/models"],
-      "@models/*": ["src/models/*"],
-      "@utils": ["src/utils"],
-      "@utils/*": ["src/utils/*"],
-      "@components": ["src/components"],
-      "@components/*": ["src/components/*"],
-      "@app/*": ["src/*"]
+      "@models": ["client/models"],
+      "@models/*": ["client/models/*"],
+      "@utils": ["client/utils"],
+      "@utils/*": ["client/utils/*"],
+      "@components": ["client/components"],
+      "@components/*": ["client/components/*"],
+      "@app/*": ["client/*"]
     },
     "sourceMap": true,
     "module": "commonjs",

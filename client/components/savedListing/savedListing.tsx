@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {
-  RedditListing,
-  RedditPost,
-  RedditComment,
-  RedditApp,
-} from 'src/models';
+import { RedditListing, RedditPost, RedditComment, RedditApp } from '@models';
 import { PostComponent as Post } from '../post/post';
 import { CommentComponent as Comment } from '../comment/comment';
 import { AppState } from '@models/AppState';

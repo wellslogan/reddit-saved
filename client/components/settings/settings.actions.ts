@@ -1,4 +1,4 @@
-import { RedditApp } from 'src/models';
+import { RedditApp } from '@models';
 
 export const SettingsActions = {
   SET_NIGHT_MODE: 'SETTINGS:SET_NIGHT_MODE',

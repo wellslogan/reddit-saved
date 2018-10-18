@@ -1,5 +1,5 @@
 import { SettingsActions } from './settings.actions';
-import { RedditApp } from 'src/models';
+import { RedditApp } from '@models';
 
 export type SettingsState = {
   nightMode: boolean;

@@ -5,7 +5,7 @@ const TsConfigPathsPlugin = require('awesome-typescript-loader')
 
 module.exports = {
   entry: {
-    main: './src/index.tsx',
+    main: './client/index.tsx',
   },
 
   module: {
@@ -49,7 +49,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './client/index.html',
     }),
   ],
 
@@ -58,17 +58,4 @@ module.exports = {
     filename: 'index.js',
     publicPath: '/',
   },
-
-  devServer: {
-    contentBase: './dist',
-    port: 8000,
-    historyApiFallback: true,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-  },
-  
-  devtool: 'inline-source-map',
-
-  mode: 'development'
 };

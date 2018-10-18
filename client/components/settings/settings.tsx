@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { AppState } from 'src/models/AppState';
+import { AppState } from '@models/AppState';
 import { setNightMode, setRedditApp } from './settings.actions';
 import { connect } from 'react-redux';
-import { RedditApp } from 'src/models';
+import { RedditApp } from '@models';
 
 type SettingsProps = {
   nightMode: boolean;

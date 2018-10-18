@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { RedditPost } from 'src/models';
-import { redditLink } from 'src/utils/helpers';
+import { RedditPost } from '@models';
+import { redditLink } from '@utils/helpers';
 
 type PostProps = {
   data: RedditPost;
