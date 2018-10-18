@@ -1,0 +1,64 @@
+.article {
+
+  &--comment,
+  &--post {
+    border: 1px solid darkgray;
+    border-radius: 0.5em;
+    padding: 1em;
+    margin: 1em 0;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &__footer {
+      a {
+        font-size: 0.8em;
+        color: $gray;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  &--comment {
+    &__header {
+      &__post-info {
+        font-size: 0.8em;
+      }
+
+      &__byline {
+        padding: 0.5em 0;
+      }
+    }
+  }
+
+  &--post {
+    &__header {
+      font-size: 1.2em;
+    }
+
+    &__byline {
+      font-size: 0.8em;
+      color: $gray;
+      padding: 0.5em 0;
+    }
+  }
+}
+
+.night {
+  .article {
+
+    &--comment,
+    &--post {
+      // border-color: $darkmode_altbg;
+    }
+  }
+}

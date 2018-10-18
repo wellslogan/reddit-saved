@@ -1,0 +1,43 @@
+@import '_variables';
+@import 'toggleSwitch';
+
+@import 'components/listing';
+@import 'components/linkButton';
+@import 'components/markdown';
+
+@mixin body-styling($bgcolor, $textcolor, $altbgcolor, $linkcolor) {
+  background-color: $bgcolor;
+  color: $textcolor;
+  transition: all 0.1s ease-in-out;
+
+  a {
+    color: $linkcolor;
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'verdana', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+
+  &.night {
+    @include body-styling($darkmode_bg, $darkmode_text, $darkmode_altbg, $lightblue);
+  }
+
+  @include body-styling($lightmode_bg, $lightmode_text, $lightmode_altbg, $darkblue);
+
+  a {
+    color: $darkblue;
+  }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
