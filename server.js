@@ -64,6 +64,7 @@ app.get('/api/auth/reddit/callback', async (req, res) => {
     {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': config.get('reddit.serverUserAgent'),
       },
       auth: {
         username: config.get('reddit.key'),

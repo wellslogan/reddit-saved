@@ -3,7 +3,8 @@
     "key": "<your-reddit-key>",
     "secret": "<your-reddit-secret>",
     "baseAuthUrl": "https://www.reddit.com/api/v1/authorize.compact?",
-    "redirectUrl": "http://127.0.0.1:9999/your/redirect/url"
+    "redirectUrl": "http://127.0.0.1:9999/your/redirect/url",
+    "serverUserAgent": "<platform>:<app ID>:<version string> (by /u/<reddit-username>)"
   },
   "sessionKey": "express session key"
 }
