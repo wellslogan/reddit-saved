@@ -1,15 +1,21 @@
-import { RedditPost, RedditComment } from '@models';
+import { RedditPost, RedditComment, RedditSubmission } from '@models';
 import { SavedListingActions } from './savedListing.actions';
+import { ifCommentOrPostDo } from '@utils/helpers';
+import { normalizeRedditSubmissions } from '@utils/normalization';
 
 export type SavedListingState = {
-  data: (RedditPost | RedditComment)[];
   loading: boolean;
-  error?: String;
+  error?: string;
+  submissionsById?: { [id: string]: RedditSubmission };
+  submissionsAllIds?: string[];
+  subreddits: { [subreddit: string]: boolean }; // fake Set
 };
 
 export const initialSavedListingState = {
-  data: [],
   loading: false,
+  submissionsById: {},
+  submissionsAllIds: [],
+  subreddits: {},
 };
 
 export const savedListingReducer = (
@@ -25,13 +31,22 @@ export const savedListingReducer = (
       ...state,
       loading: action.loading,
     }),
-    [SavedListingActions.ADD_SAVED_LISTING_DATA]: () => ({
+    [SavedListingActions.ADD_SUBMISSIONS]: () => {
+      const { byId, allIds, subreddits } = normalizeRedditSubmissions(
+        action.submissions
+      );
+      return {
+        ...state,
+        submissionsById: { ...state.submissionsById, ...byId },
+        submissionsAllIds: [...state.submissionsAllIds, ...allIds],
+        subreddits: { ...state.subreddits, ...subreddits },
+      };
+    },
+    [SavedListingActions.CLEAR_SUBMISSIONS]: () => ({
       ...state,
-      data: [...state.data, ...action.listing],
-    }),
-    [SavedListingActions.CLEAR_SAVED_LISTING_DATA]: () => ({
-      ...state,
-      data: [],
+      submissionsById: {},
+      submissionsAllIds: [],
+      subreddits: {},
     }),
   };
 

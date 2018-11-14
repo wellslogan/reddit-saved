@@ -1,64 +1,134 @@
-.article {
+.listing {
+  display: flex;
 
-  &--comment,
-  &--post {
-    border: 1px solid darkgray;
-    border-radius: 0.5em;
-    padding: 1em;
-    margin: 1em 0;
+  &__subreddits-list {
+    padding-right: 1em;
 
-    &:first-child {
-      margin-top: 0;
+    @include breakpoint(xs) {
+      display: none;
     }
 
-    &:last-child {
-      margin-bottom: 0;
+    ul {
+      padding-left: 0;
+
+      li {
+        list-style: none;
+      }
+    }
+  }
+
+
+  &__submissions {
+    flex-grow: 1;
+
+    &__filter {
+      display: flex;
+      padding: 1em 0;
+
+      @include breakpoint(xs) {
+        flex-direction: column;
+
+        >* {
+          margin-top: 1em;
+        }
+      }
+
+      &__subreddits {
+        @include breakpoint(sm) {
+          display: none;
+        }
+      }
+
+      .clear-subreddit {
+        font-size: 1.2em;
+        background: $lightblue;
+        margin-left: 1em;
+
+        @include breakpoint(xs) {
+          margin-left: 0;
+        }
+      }
+
+      .filter-query {
+        @include breakpoint(xs) {
+          width: 100%;
+        }
+      }
+
     }
 
-    &__footer {
-      a {
-        font-size: 0.8em;
-        color: $gray;
-        text-decoration: none;
+    .article {
 
-        &:hover {
-          text-decoration: underline;
+      &--comment,
+      &--post {
+        border: 1px solid darkgray;
+        border-radius: 0.5em;
+        padding: 1em;
+        margin: 1em 0;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        &__footer {
+
+          a,
+          button.link-button {
+            font-size: 0.8em;
+            color: $gray;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      &--comment {
+        &__header {
+          &__post-info {
+            font-size: 0.8em;
+          }
+
+          &__byline {
+            padding: 0.5em 0;
+          }
+        }
+      }
+
+      &--post {
+        &__header {
+          font-size: 1.2em;
+        }
+
+        &__byline {
+          font-size: 0.8em;
+          color: $gray;
+          padding: 0.5em 0;
         }
       }
     }
   }
-
-  &--comment {
-    &__header {
-      &__post-info {
-        font-size: 0.8em;
-      }
-
-      &__byline {
-        padding: 0.5em 0;
-      }
-    }
-  }
-
-  &--post {
-    &__header {
-      font-size: 1.2em;
-    }
-
-    &__byline {
-      font-size: 0.8em;
-      color: $gray;
-      padding: 0.5em 0;
-    }
-  }
 }
 
-.night {
-  .article {
 
-    &--comment,
-    &--post {
-      // border-color: $darkmode_altbg;
+
+
+.night {
+
+  .listing {
+    &__submissions {
+      &__filter {
+        .clear-subreddit {
+          background: $darkmode_altbg;
+          color: $white;
+        }
+      }
     }
   }
 }

@@ -1,16 +1,22 @@
 import { RedditApp } from '@models';
 
-export const SettingsActions = {
+export const SettingsActionTypes = {
   SET_NIGHT_MODE: 'SETTINGS:SET_NIGHT_MODE',
   SET_REDDIT_APP: 'SETTINGS:SET_REDDIT_APP',
+  SET_FIXED_WIDTH: 'SETTINGS:SET_FIXED_WIDTH',
 };
 
 export const setNightMode = (nightMode: boolean) => ({
-  type: SettingsActions.SET_NIGHT_MODE,
+  type: SettingsActionTypes.SET_NIGHT_MODE,
   nightMode,
 });
 
 export const setRedditApp = (redditApp: RedditApp) => ({
-  type: SettingsActions.SET_REDDIT_APP,
+  type: SettingsActionTypes.SET_REDDIT_APP,
   redditApp,
+});
+
+export const setFixedWidth = (fixedWidth: boolean) => ({
+  type: SettingsActionTypes.SET_FIXED_WIDTH,
+  fixedWidth,
 });

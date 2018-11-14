@@ -1,0 +1,62 @@
+.header {
+  position: relative;
+
+  .settings-button {
+    position: fixed;
+    top: 2em;
+    right: 2em;
+    z-index: 999;
+  }
+
+  &__settings {
+    position: fixed;
+    background: $white;
+    top: 0;
+    left: 100%;
+    height: 100vh;
+    z-index: 998;
+    padding: 2em 2em 2em 2em;
+    transform: translateX(0);
+    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+
+    &.settings-open {
+      transform: translateX(-100%);
+      transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+      -webkit-box-shadow: -2px 1px 37px -10px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: -2px 1px 37px -10px rgba(0, 0, 0, 0.75);
+      box-shadow: -2px 1px 37px -10px rgba(0, 0, 0, 0.75);
+      padding-left: 2em;
+    }
+
+    &__setting {
+      padding: 1em 0;
+      border-bottom: 1px solid $lightgray;
+      white-space: nowrap;
+
+      >* {
+        display: block;
+        margin: 0.5em 0;
+      }
+
+      >label:not(.switch) {
+        text-transform: uppercase;
+        font-size: .75em;
+        font-weight: bold;
+      }
+
+      .link-button {
+        font-size: 1.2em;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.night {
+  .header {
+    &__settings {
+      background: $darkmode_altbg;
+    }
+  }
+}

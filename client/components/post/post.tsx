@@ -1,9 +1,16 @@
 import * as React from 'react';
-import { RedditPost } from '@models';
-import { redditLink } from '@utils/helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as moment from 'moment';
+
+import { RedditPost, RedditApp } from '@models';
+import { htmlDecode } from '@utils/helpers';
+import { RedditLink } from '@components';
 
 type PostProps = {
-  data: RedditPost;
+  post: RedditPost;
+  redditApp: RedditApp;
+  style: any;
+  onSelfTextToggle: () => any;
 };
 
 type PostState = {
@@ -13,30 +20,69 @@ type PostState = {
 export class PostComponent extends React.Component<PostProps, PostState> {
   constructor(props) {
     super(props);
-    this.state = { collapsed: false };
+    this.state = { collapsed: true };
   }
 
+  onClickCollapse = () => {
+    this.props.onSelfTextToggle();
+    this.setState(prevState => ({ collapsed: !prevState.collapsed }));
+  };
+
   render() {
-    const { data } = this.props.data;
+    const { post, redditApp, style } = this.props;
+    const collapseIcon = this.state.collapsed ? 'chevron-down' : 'chevron-up';
+
+    const RedditLinkWithApp = ({ url, children }) => (
+      <RedditLink url={url} app={redditApp}>
+        {children}
+      </RedditLink>
+    );
+
     return (
-      <article className="article--post">
-        <header className="article--post__header">
-          <a href={data.url}>{data.title}</a>
-        </header>
-        <section className="article--post__byline">
-          submitted 19 days ago by{' '}
-          <a href={redditLink(`u/${data.author}`)}>{data.author}</a> to{' '}
-          <a href={redditLink(`r/${data.subreddit}`)}>
-            r/
-            {data.subreddit}
-          </a>
-        </section>
-        <footer className="article--post__footer">
-          <a href={redditLink(data.permalink)}>
-            <strong>{data.num_comments} comments</strong>
-          </a>
-        </footer>
-      </article>
+      <div style={{ ...style, padding: '1em 0' }}>
+        <article className="article--post">
+          <header className="article--post__header">
+            <RedditLinkWithApp url={post.data.url}>
+              {post.data.title}
+            </RedditLinkWithApp>
+          </header>
+          <section className="article--post__byline">
+            submitted {moment.unix(post.data.created).fromNow()} by{' '}
+            <RedditLinkWithApp url={`u/${post.data.author}`}>
+              {post.data.author}
+            </RedditLinkWithApp>
+            {' to '}
+            <RedditLinkWithApp url={`r/${post.data.subreddit}`}>
+              r/{post.data.subreddit}
+            </RedditLinkWithApp>
+          </section>
+          <section className="article--post__footer">
+            {post.data.selftext ? (
+              <button
+                className="link-button"
+                onClick={() => this.onClickCollapse()}
+              >
+                <strong>
+                  Show self-text <FontAwesomeIcon icon={collapseIcon} />
+                </strong>
+              </button>
+            ) : null}
+          </section>
+          {this.state.collapsed ? null : (
+            <section
+              className="article--post__selftext"
+              dangerouslySetInnerHTML={{
+                __html: htmlDecode(post.data.selftext_html),
+              }}
+            />
+          )}
+          <footer className="article--post__footer">
+            <RedditLinkWithApp url={post.data.permalink}>
+              <strong>{post.data.num_comments} comments</strong>
+            </RedditLinkWithApp>
+          </footer>
+        </article>
+      </div>
     );
   }
 }

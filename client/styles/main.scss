@@ -1,9 +1,9 @@
 @import '_variables';
+@import '_mixins';
+@import '_globals';
 @import 'toggleSwitch';
 
-@import 'components/listing';
-@import 'components/linkButton';
-@import 'components/markdown';
+@import 'components/_index';
 
 @mixin body-styling($bgcolor, $textcolor, $altbgcolor, $linkcolor) {
   background-color: $bgcolor;
@@ -38,6 +38,18 @@ body {
 }
 
 .container {
-  max-width: 900px;
-  margin: 0 auto;
+  margin: 2em;
+
+  @include breakpoint(xs) {
+    margin: 1em;
+  }
+}
+
+.fixed-width {
+  .container {
+    @include breakpoint(1200px) {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
 }

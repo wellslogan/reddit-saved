@@ -2,4 +2,12 @@
   pre {
     white-space: pre-wrap;
   }
+
+  blockquote {
+    font-style: italic;
+  }
+
+  * {
+    @include word-wrap;
+  }
 }

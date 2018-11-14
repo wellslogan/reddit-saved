@@ -239,3 +239,6 @@ _Pvt_Extensions
 .vscode/
 dist/
 testData.js
+
+config/*
+!config/example.json

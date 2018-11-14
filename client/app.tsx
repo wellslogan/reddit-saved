@@ -1,25 +1,34 @@
 import * as React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
+// import extensions
+import './extensions';
 
 import { createAndPersistStore } from './configureStore';
-import { RedditListing } from './models';
-import SavedListing from './components/savedListing/savedListing';
-import Settings from './components/settings/settings';
+import { Login, Settings, SavedListing } from '@components';
 
-// import * as testData from '../test-data.json';
-
-const store = createAndPersistStore();
+const { store, persistor } = createAndPersistStore();
 
 const App = () => (
   <Provider store={store}>
-    <div className="container">
-      <header>
-        <h1>Saved Viewer for Reddit</h1>
-        <Settings />
-      </header>
-      <SavedListing />
-    </div>
+    <PersistGate loading={null} persistor={persistor}>
+      <div className="container">
+        <BrowserRouter>
+          <>
+            <header className="header">
+              <h1>
+                <Link to="/">Saved Browser for Reddit</Link>
+              </h1>
+              <Settings />
+            </header>
+            <Route path="/" exact component={Login} />
+            <Route path="/listing" component={SavedListing} />
+          </>
+        </BrowserRouter>
+      </div>
+    </PersistGate>
   </Provider>
 );
 

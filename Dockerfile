@@ -13,5 +13,5 @@ RUN cp -a /tmp/node_modules /usr/src/app/
 RUN webpack --config ./webpack.prod.js
 ENV NODE_ENV=production
 ENV PORT=4000
-CMD [ "/usr/local/bin/node", "./app.js" ]
+CMD [ "/usr/local/bin/node", "./server.js" ]
 EXPOSE 4000

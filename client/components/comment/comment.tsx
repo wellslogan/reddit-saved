@@ -1,76 +1,73 @@
 import * as React from 'react';
+import * as moment from 'moment';
 
+import { RedditLink } from '@components';
 import { RedditComment, RedditApp } from '@models';
-import { redditLink as makeRedditLink, htmlDecode } from '@utils/helpers';
+import { htmlDecode } from '@utils/helpers';
 
 type CommentProps = {
   comment: RedditComment;
   redditApp: RedditApp;
+  style: any;
 };
 
-type CommentState = {
-  collapsed: boolean;
-};
+export const CommentComponent: React.StatelessComponent<CommentProps> = ({
+  redditApp,
+  comment,
+  style,
+}) => {
+  const RedditLinkWithApp = ({ url, children }) => (
+    <RedditLink url={url} app={redditApp}>
+      {children}
+    </RedditLink>
+  );
 
-export class CommentComponent extends React.Component<
-  CommentProps,
-  CommentState
-> {
-  constructor(props) {
-    super(props);
-    this.state = { collapsed: false };
-  }
-
-  toggleCollapsed = () => {
-    this.setState(prevState => ({
-      collapsed: !prevState.collapsed,
-    }));
-  };
-
-  render() {
-    const { data } = this.props.comment;
-    const redditLink = relativeUrl =>
-      makeRedditLink(relativeUrl, this.props.redditApp);
-
-    return (
+  return (
+    <div style={{ ...style, padding: '0.5em 0' }}>
       <article className="article--comment">
         <header className="article--comment__header">
+          {/* {restoredFromFile ? (
+              <div className="article--comment__header__post-restored">
+                RESTORED FROM FILE
+              </div>
+            ) : null} */}
           <div className="article--comment__header__post-info">
-            <a href={data.link_url}>{data.link_title}</a>
+            <RedditLinkWithApp url={comment.data.link_url}>
+              {comment.data.link_title}
+            </RedditLinkWithApp>{' '}
             <span className="article--comment__header__post-info__byline">
               by{' '}
-              <a href={redditLink(`u/${data.link_author}`)}>
-                {data.link_author}
-              </a>{' '}
+              <RedditLinkWithApp url={`/u/${comment.data.link_author}`}>
+                {comment.data.link_author}
+              </RedditLinkWithApp>{' '}
               in{' '}
-              <a href={redditLink(`r/${data.subreddit}`)}>{data.subreddit}</a>
+              <RedditLinkWithApp url={`/r/${comment.data.subreddit}`}>
+                {comment.data.subreddit}
+              </RedditLinkWithApp>
             </span>
           </div>
           <div className="article--comment__header__byline">
-            <button
-              className="link-button"
-              onClick={() => this.toggleCollapsed()}
-            >
-              {this.state.collapsed ? '[+]' : '[-]'}
-            </button>{' '}
-            <a href={redditLink(`u/${data.author}`)}>
-              <strong>{data.author}</strong>
-            </a>{' '}
-            <strong>{data.score} points</strong> 5 days ago
+            <RedditLinkWithApp url={`/u/${comment.data.author}`}>
+              <strong>{comment.data.author}</strong>
+            </RedditLinkWithApp>{' '}
+            <strong>{comment.data.score} points</strong>{' '}
+            {moment.unix(comment.data.created).fromNow()}
           </div>
         </header>
-        {this.state.collapsed ? null : (
-          <main
-            className="article--comment__main"
-            dangerouslySetInnerHTML={{ __html: htmlDecode(data.body_html) }}
-          />
-        )}
+        <main
+          className="article--comment__main"
+          dangerouslySetInnerHTML={{
+            __html: htmlDecode(comment.data.body_html),
+          }}
+        />
         <footer className="article--comment__footer">
-          <a href={redditLink(data.permalink)} target="_blank">
+          <RedditLinkWithApp url={comment.data.permalink}>
             <strong>Permalink</strong>
-          </a>
+          </RedditLinkWithApp>
         </footer>
       </article>
-    );
-  }
-}
+    </div>
+  );
+};
+
+CommentComponent.displayName = 'Comment';

@@ -1,4 +1,4 @@
-import { SettingsActions } from './settings.actions';
+import { SettingsActionTypes } from './settings.actions';
 import { RedditApp } from '@models';
 
 export type SettingsState = {
@@ -15,16 +15,20 @@ export const settingsReducer = (
   action
 ) => {
   const actionHandlers = {
-    [SettingsActions.SET_NIGHT_MODE]: () => ({
+    [SettingsActionTypes.SET_NIGHT_MODE]: () => ({
       ...state,
       nightMode: action.nightMode,
     }),
-    [SettingsActions.SET_REDDIT_APP]: () => ({
+    [SettingsActionTypes.SET_REDDIT_APP]: () => ({
       ...state,
       redditApp: action.redditApp,
     }),
+    [SettingsActionTypes.SET_FIXED_WIDTH]: () => ({
+      ...state,
+      fixedWidth: action.fixedWidth,
+    }),
   };
 
-  const getNewState = actionHandlers[action.type] || (() => state);
-  return getNewState();
+  const getNextState = actionHandlers[action.type] || (() => state);
+  return getNextState();
 };

@@ -1,0 +1,52 @@
+input[type=text] {
+
+  transition: background-color 0.2s ease-in-out;
+
+  &:focus {
+    background-color: $white;
+  }
+}
+
+input[type=text],
+select {
+  appearance: none;
+  background-color: $lightgray;
+  border: 1px solid $lightgray;
+  border-radius: 0.5em;
+  font-size: 1.2em;
+  padding: 8px 10px;
+  outline: none;
+}
+
+.input-with-button {
+  position: relative;
+
+  >button.link-button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+
+  >input[type=text] {
+    margin-left: 0;
+    padding-right: 30px;
+  }
+}
+
+.night {
+
+  input[type=text] {
+    background-color: $darkmode_bg;
+    color: $white;
+
+    &:focus {
+      background-color: $darkmode_bg;
+    }
+  }
+
+  select {
+    background-color: $darkmode_bg;
+    color: $gray;
+  }
+}

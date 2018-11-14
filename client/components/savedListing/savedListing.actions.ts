@@ -1,12 +1,15 @@
-import { RedditPost, RedditComment, AppState } from '@models';
-import axios from 'axios';
-import tryAsync from '@utils/tryAsync';
+import { RedditPost, RedditComment, AppState, RedditSubmission } from '@models';
+import { retrieveRedditToken } from '@utils/sessionStorage.service';
+import { NO_SAVED_POSTS } from '@app/constants';
+import { fetchIdentity, fetchSaved } from '@utils/reddit.service';
+import { addUsername } from '@components/login/login.actions';
 
 export const SavedListingActions = {
   SET_SAVED_LISTING_LOADING: 'SAVEDLISTING:SET_SAVED_LISTING_LOADING',
-  ADD_SAVED_LISTING_DATA: 'SAVEDLISTING:ADD_SAVED_LISTING_DATA',
   ADD_SAVED_LISTING_ERROR: 'SAVEDLISTING:ADD_SAVED_LISTING_ERROR',
-  CLEAR_SAVED_LISTING_DATA: 'SAVEDLISTING:CLEAR_SAVED_LISTING_DATA',
+  ADD_SUBREDDITS_LIST: 'SAVEDLISTING:ADD_SUBREDDITS_LIST',
+  ADD_SUBMISSIONS: 'SAVEDLISTING:ADD_SUBMISSIONS',
+  CLEAR_SUBMISSIONS: 'SAVEDLISTING:CLEAR_SUBMISSIONS',
 };
 
 export const setSavedListingLoading = (loading?: boolean) => ({
@@ -14,20 +17,23 @@ export const setSavedListingLoading = (loading?: boolean) => ({
   loading,
 });
 
-export const addSavedListingData = (
-  listing: (RedditPost | RedditComment)[]
-) => ({
-  type: SavedListingActions.ADD_SAVED_LISTING_DATA,
-  listing,
-});
-
-export const clearSavedListingData = () => ({
-  type: SavedListingActions.CLEAR_SAVED_LISTING_DATA,
-});
-
 export const addSavedListingError = (error: String) => ({
   type: SavedListingActions.ADD_SAVED_LISTING_ERROR,
   error,
+});
+
+export const addSubredditsList = (subs: string[]) => ({
+  type: SavedListingActions.ADD_SUBREDDITS_LIST,
+  subs,
+});
+
+export const addSubmissions = (submissions: RedditSubmission[]) => ({
+  type: SavedListingActions.ADD_SUBMISSIONS,
+  submissions,
+});
+
+export const clearSubmissions = () => ({
+  type: SavedListingActions.CLEAR_SUBMISSIONS,
 });
 
 type StateGetter = () => AppState;
@@ -38,9 +44,25 @@ export const fetchSavedListingAsync = () => async (
 ) => {
   dispatch(setSavedListingLoading(true));
 
-  // const listing = await axios.get('http://localhost:5000/listing');
-  const { err, data } = await tryAsync<any>(axios.get('http://localhost:5000'));
-  if (err) dispatch(addSavedListingError(err));
+  const token = retrieveRedditToken();
 
-  dispatch(addSavedListingData(data));
+  if (!token) window.location = '/login' as any;
+
+  const { data: profile } = await fetchIdentity(token);
+
+  // add profile data to the login store
+  dispatch(addUsername(profile.name));
+
+  let after;
+  while (after !== null) {
+    const { data: listing } = await fetchSaved(token, profile.name, after);
+    dispatch(addSubmissions(listing.data.children));
+    after = listing.data.after;
+
+    if (listing.data.dist === 0) {
+      dispatch(addSavedListingError(NO_SAVED_POSTS));
+    }
+  }
+
+  dispatch(setSavedListingLoading(false));
 };

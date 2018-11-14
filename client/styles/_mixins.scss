@@ -1,0 +1,72 @@
+// from https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+@mixin word-wrap() {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+// https://medium.com/developing-with-sass/creating-a-dead-simple-sass-mixin-to-handle-responsive-breakpoints-889927b37740
+@mixin breakpoint($min: 0, $max: 0) {
+  $type: type-of($min);
+
+  @if $type==string {
+    @if $min==xs {
+      @media (max-width: 767px) {
+        @content;
+      }
+    }
+
+    @else if $min==sm {
+      @media (min-width: 768px) {
+        @content;
+      }
+    }
+
+    @else if $min==md {
+      @media (min-width: 992px) {
+        @content;
+      }
+    }
+
+    @else if $min==lg {
+      @media (min-width: 1200px) {
+        @content;
+      }
+    }
+
+    @else {
+      @warn "Breakpoint mixin supports: xs, sm, md, lg";
+    }
+  }
+
+  @else if $type==number {
+    $query: "all" !default;
+
+    @if $min !=0 and $max !=0 {
+      $query: "(min-width: #{$min}) and (max-width: #{$max})";
+    }
+
+    @else if $min !=0 and $max==0 {
+      $query: "(min-width: #{$min})";
+    }
+
+    @else if $min==0 and $max !=0 {
+      $query: "(max-width: #{$max})";
+    }
+
+    @media #{$query} {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Bad input for mixin 'breakpoint'";
+  }
+
+}

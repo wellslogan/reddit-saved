@@ -1,12 +1,13 @@
 interface RedditContent<TData> {
   data: TData;
   kind: 'listing' | 't3' | 't1';
+  restoredFromFile?: boolean;
 }
 
 interface RedditListingData {
   after: string;
   before: string;
-  children: (RedditPost | RedditComment)[];
+  children: RedditSubmission[];
   dist: number;
 }
 
@@ -44,3 +45,5 @@ interface RedditPostData {
 export interface RedditListing extends RedditContent<RedditListingData> {}
 export interface RedditPost extends RedditContent<RedditPostData> {}
 export interface RedditComment extends RedditContent<RedditCommentData> {}
+
+export type RedditSubmission = RedditPost | RedditComment;
