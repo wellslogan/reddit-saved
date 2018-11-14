@@ -22,8 +22,6 @@
     &.settings-open {
       transform: translateX(-100%);
       transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-      -webkit-box-shadow: -2px 1px 37px -10px rgba(0, 0, 0, 0.75);
-      -moz-box-shadow: -2px 1px 37px -10px rgba(0, 0, 0, 0.75);
       box-shadow: -2px 1px 37px -10px rgba(0, 0, 0, 0.75);
       padding-left: 2em;
     }

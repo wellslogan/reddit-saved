@@ -196,10 +196,14 @@
 
 .badge-button {
   appearance: none;
-  -webkit-appearance: none;
   border: none;
   outline: none;
   border-radius: 0.5em;
   cursor: pointer;
   padding: 8px 10px;
+}
+
+// override the outline
+.ReactVirtualized__Grid.ReactVirtualized__List {
+  outline: none;
 }
