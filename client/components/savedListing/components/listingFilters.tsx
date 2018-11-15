@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
-import { Input } from '@components/input/input';
+import { FilterInput } from './filterInput';
 
 type ListingFiltersProps = {
   allSubreddits: string[];
@@ -20,12 +20,13 @@ export const ListingFilters: React.StatelessComponent<ListingFiltersProps> = ({
 }) => {
   return (
     <>
-      <Input
+      <FilterInput
         value={queryFilter}
-        onChange={e => onQueryFilterChange(e.target.value)}
+        onChange={query => onQueryFilterChange(query)}
         onClear={() => onQueryFilterChange('')}
         type="text"
         placeholder="type to filter"
+        data-testid="filterInput"
       />{' '}
       <select
         className="listing__submissions__filter__subreddits"
