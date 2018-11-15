@@ -93,6 +93,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           <div className="header__settings__setting">
             <label>Night Mode</label>
             <ToggleSwitch
+              id="nightModeSwitch"
               checked={nightMode}
               onToggle={() => {
                 // redux dispatch
@@ -105,6 +106,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           <div className="header__settings__setting">
             <label>Use Fixed Width on desktop</label>
             <ToggleSwitch
+              id="fixedWidthSwitch"
               checked={fixedWidth}
               onToggle={() => {
                 // redux dispatch

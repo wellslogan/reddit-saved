@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: SubredditsListing should render 1`] = `
+<div>
+  <ul>
+    <li>
+      filter by sub:
+    </li>
+    <li>
+      <button
+        class="link-button"
+        data-testid="filterSubBtn-AskReddit"
+      >
+        AskReddit
+      </button>
+    </li>
+    <li>
+      <button
+        class="link-button"
+        data-testid="filterSubBtn-boston"
+      >
+        boston
+      </button>
+    </li>
+    <li>
+      <button
+        class="link-button"
+        data-testid="filterSubBtn-news"
+      >
+        news
+      </button>
+    </li>
+    <li>
+      <button
+        class="link-button"
+        data-testid="filterSubBtn-Politics"
+      >
+        Politics
+      </button>
+    </li>
+    <li>
+      <button
+        class="link-button"
+        data-testid="filterSubBtn-Patriots"
+      >
+        Patriots
+      </button>
+    </li>
+    <li>
+      <button
+        class="link-button"
+        data-testid="filterSubBtn-bestoflegaladvice"
+      >
+        bestoflegaladvice
+      </button>
+    </li>
+  </ul>
+</div>
+`;

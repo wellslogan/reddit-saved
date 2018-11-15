@@ -12,7 +12,11 @@ export const SubredditsListing: React.StatelessComponent<
     <li>filter by sub:</li>
     {subreddits.map(sub => (
       <li key={sub}>
-        <button className="link-button" onClick={() => onClickSubreddit(sub)}>
+        <button
+          className="link-button"
+          onClick={() => onClickSubreddit(sub)}
+          data-testid={`filterSubBtn-${sub}`}
+        >
           {sub}
         </button>
       </li>

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: ToggleSwitch should render checked 1`] = `
+<div>
+  <label
+    class="switch"
+  >
+    <input
+      checked=""
+      data-testid="toggleSwitch-test"
+      id="test"
+      type="checkbox"
+    />
+    <span
+      class="slider round"
+    />
+  </label>
+</div>
+`;
+
+exports[`Component: ToggleSwitch should render unchecked 1`] = `
+<div>
+  <label
+    class="switch"
+  >
+    <input
+      data-testid="toggleSwitch-test"
+      id="test"
+      type="checkbox"
+    />
+    <span
+      class="slider round"
+    />
+  </label>
+</div>
+`;
