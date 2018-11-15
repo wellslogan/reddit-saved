@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons/faArrowCircleRight';
 
-import { readJsonDataAsync } from '@utils/fileReaderAsync';
 import { storeRedditToken } from '@utils/sessionStorage.service';
 import { AppState } from '@models';
 import { Link } from 'react-router-dom';

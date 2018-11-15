@@ -61,6 +61,7 @@ export const fetchSavedListingAsync = () => async (
 
     if (listing.data.dist === 0) {
       dispatch(addSavedListingError(NO_SAVED_POSTS));
+      break;
     }
   }
 
