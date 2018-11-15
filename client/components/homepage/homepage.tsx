@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { AppState } from '@models';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons/faArrowCircleRight';
+
+import { AppState } from '@models';
 
 type HomepageProps = {
   username?: string;
@@ -15,7 +17,7 @@ const Homepage: React.StatelessComponent<HomepageProps> = ({ username }) => {
         Hi, <strong>{username}</strong>! You're already logged in,{' '}
         <Link to="/listing">
           click here to browse the listing{' '}
-          <FontAwesomeIcon icon="arrow-circle-right" />
+          <FontAwesomeIcon icon={faArrowCircleRight} />
         </Link>
       </div>
     );

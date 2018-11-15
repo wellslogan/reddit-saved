@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { Input } from '@components/input/input';
 
 type ListingFiltersProps = {
@@ -44,7 +45,7 @@ export const ListingFilters: React.StatelessComponent<ListingFiltersProps> = ({
           onClick={() => onSubredditFilterChange('')}
         >
           sub: {subredditFilter} (
-          <FontAwesomeIcon icon="times" />)
+          <FontAwesomeIcon icon={faTimes} />)
         </button>
       ) : null}
     </>

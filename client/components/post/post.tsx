@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import * as moment from 'moment';
 
 import { RedditPost, RedditApp } from '@models';
@@ -30,7 +32,7 @@ export class PostComponent extends React.Component<PostProps, PostState> {
 
   render() {
     const { post, redditApp, style } = this.props;
-    const collapseIcon = this.state.collapsed ? 'chevron-down' : 'chevron-up';
+    const collapseIcon = this.state.collapsed ? faChevronUp : faChevronDown;
 
     const RedditLinkWithApp = ({ url, children }) => (
       <RedditLink url={url} app={redditApp}>

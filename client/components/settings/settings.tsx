@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
+import { faCog } from '@fortawesome/free-solid-svg-icons/faCog';
 
 import { AppState } from '@models/AppState';
 import { setNightMode, setRedditApp, setFixedWidth } from './settings.actions';
@@ -74,7 +76,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           }
         >
           <FontAwesomeIcon
-            icon={this.state.isOpen ? 'times' : 'cog'}
+            icon={this.state.isOpen ? faTimes : faCog}
             size="2x"
           />
         </button>

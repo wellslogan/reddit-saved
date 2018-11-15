@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { parse } from 'query-string';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons/faArrowCircleRight';
 
 import { readJsonDataAsync } from '@utils/fileReaderAsync';
 import { storeRedditToken } from '@utils/sessionStorage.service';
 import { AppState } from '@models';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type LoginComponentProps = {
   location: { search: string };
@@ -34,7 +35,7 @@ class LoginComponent extends React.Component<LoginComponentProps, {}> {
           Hi, <strong>{username}</strong>! You're already logged in,{' '}
           <Link to="/listing">
             click here to browse the listing{' '}
-            <FontAwesomeIcon icon="arrow-circle-right" />
+            <FontAwesomeIcon icon={faArrowCircleRight} />
           </Link>
         </div>
       );

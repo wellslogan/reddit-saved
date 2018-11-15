@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 
 type InputProps = {
   value: string;
@@ -14,7 +15,7 @@ export const Input: InputComponent = (props: InputProps) => {
   return (
     <div className="input-with-button">
       <button className="link-button" onClick={() => onClear()}>
-        <FontAwesomeIcon icon="times" size="lg" />
+        <FontAwesomeIcon icon={faTimes} size="lg" />
       </button>
       <input
         className="filter-query"

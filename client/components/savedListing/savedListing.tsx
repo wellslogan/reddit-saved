@@ -6,17 +6,14 @@ import {
   AutoSizer,
   CellMeasurerCache,
   CellMeasurer,
-} from 'react-virtualized';
+} from './components/reactVirtualizedComponents';
 
 import { RedditApp, RedditSubmission } from '@models';
 import { PostComponent as Post } from '../post/post';
 import { CommentComponent as Comment } from '../comment/comment';
 import { AppState } from '@models/AppState';
-// import * as testData from 'testData';
 import { ifCommentOrPostDo } from '@utils/helpers';
-import { Input } from '@components/input/input';
 import { fetchSavedListingAsync } from './savedListing.actions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LoadingGate } from './components/loadingGate';
 import { SubredditsListing } from './components/subredditsListing';
 import { ListingFilters } from './components/listingFilters';
