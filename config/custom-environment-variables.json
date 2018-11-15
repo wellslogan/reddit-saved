@@ -1,0 +1,10 @@
+{
+  "reddit": {
+    "key": "REDDIT_CLIENT_ID",
+    "secret": "REDDIT_CLIENT_SECRET",
+    "baseAuthUrl": "https://www.reddit.com/api/v1/authorize.compact?",
+    "redirectUrl": "REDDIT_REDIRECT_URL",
+    "serverUserAgent": "REDDIT_SERVER_USER_AGENT"
+  },
+  "sessionKey": "SESSION_KEY"
+}
