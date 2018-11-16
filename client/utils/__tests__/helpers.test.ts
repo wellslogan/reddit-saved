@@ -1,4 +1,9 @@
-import { redditLink, htmlDecode, ifCommentOrPostDo } from '@utils/helpers';
+import {
+  redditLink,
+  htmlDecode,
+  ifCommentOrPostDo,
+  fixRelativeLinks,
+} from '@utils/helpers';
 import { RedditApp } from '@models';
 import { MockSubmissions } from '@app/MockData';
 
@@ -88,6 +93,69 @@ describe('Utils: helpers', () => {
       const actual = ifCommentOrPostDo(post, comment => 1, post => 2);
       expect(post.kind).toBe('t3');
       expect(actual).toBe(2);
+    });
+  });
+
+  describe('Helper: fixRelativeLinks', () => {
+    it('should convert relative links into absolute links', () => {
+      const actual = fixRelativeLinks(
+        '<a href="/u/some-user">/u/some-user</a>'
+      );
+      const expected =
+        '<a href="https://www.reddit.com/u/some-user">/u/some-user</a>';
+      expect(actual).toBe(expected);
+    });
+
+    it('should add app mapping', () => {
+      const actual = fixRelativeLinks(
+        '<a href="/u/some-user">/u/some-user</a>',
+        RedditApp.Narwhal
+      );
+      const expected =
+        '<a href="narwhal://open-url/https://www.reddit.com/u/some-user">/u/some-user</a>';
+      expect(actual).toBe(expected);
+    });
+
+    it('should work with multiple links', () => {
+      const actual = fixRelativeLinks(`
+        <div>
+          <a href="/u/test">/u/test</a>
+        </div>
+        <a href="/r/subreddit">/r/subreddit</a>
+        <p>
+          <span>
+            <a href="/r/test">/r/test</a>
+          </span>
+        </p>
+      `);
+
+      const expected = `
+        <div>
+          <a href="https://www.reddit.com/u/test">/u/test</a>
+        </div>
+        <a href="https://www.reddit.com/r/subreddit">/r/subreddit</a>
+        <p>
+          <span>
+            <a href="https://www.reddit.com/r/test">/r/test</a>
+          </span>
+        </p>
+      `;
+
+      expect(actual).toBe(expected);
+    });
+
+    it('should not convert other absolute links', () => {
+      const actual = fixRelativeLinks(`
+        <a href="https://google.com">google</a>
+        <a href="/u/user">/u/user</a>
+      `);
+
+      const expected = `
+        <a href="https://google.com">google</a>
+        <a href="https://www.reddit.com/u/user">/u/user</a>
+      `;
+
+      expect(actual).toBe(expected);
     });
   });
 });

@@ -5,7 +5,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
 import * as moment from 'moment';
 
 import { RedditPost, RedditApp } from '@models';
-import { htmlDecode } from '@utils/helpers';
+import { htmlDecode, fixRelativeLinks } from '@utils/helpers';
 import { RedditLink } from '@components';
 
 type PostProps = {
@@ -74,7 +74,10 @@ export class PostComponent extends React.Component<PostProps, PostState> {
             <section
               className="article--post__selftext"
               dangerouslySetInnerHTML={{
-                __html: htmlDecode(post.data.selftext_html),
+                __html: fixRelativeLinks(
+                  htmlDecode(post.data.selftext_html),
+                  redditApp
+                ),
               }}
             />
           )}

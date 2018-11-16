@@ -57,3 +57,16 @@ export const ifCommentOrPostDo = (
     ? ifComment(item as RedditComment)
     : ifPost(item as RedditPost);
 };
+
+/**
+ * Relative links in the html provided by the reddit API
+ * need to be corrected to actually go to reddit.com
+ * @param htmlString the raw html string of the post or comment
+ * @param app the reddit app to use
+ */
+export const fixRelativeLinks = (
+  htmlString: string,
+  app: RedditApp = RedditApp.None
+): string => {
+  return htmlString.replace(/\<a href="\//gm, `<a href="${appMapping[app]}/`);
+};

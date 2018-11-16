@@ -3,7 +3,7 @@ import * as moment from 'moment';
 
 import { RedditLink } from '@components';
 import { RedditComment, RedditApp } from '@models';
-import { htmlDecode } from '@utils/helpers';
+import { htmlDecode, fixRelativeLinks } from '@utils/helpers';
 
 type CommentProps = {
   comment: RedditComment;
@@ -57,7 +57,10 @@ export const CommentComponent: React.StatelessComponent<CommentProps> = ({
         <main
           className="article--comment__main"
           dangerouslySetInnerHTML={{
-            __html: htmlDecode(comment.data.body_html),
+            __html: fixRelativeLinks(
+              htmlDecode(comment.data.body_html),
+              redditApp
+            ),
           }}
         />
         <footer className="article--comment__footer">
