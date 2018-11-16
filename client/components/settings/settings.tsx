@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { faCog } from '@fortawesome/free-solid-svg-icons/faCog';
+import { saveAs } from 'file-saver';
+import * as moment from 'moment';
 
 import { AppState } from '@models/AppState';
 import { setNightMode, setRedditApp, setFixedWidth } from './settings.actions';
@@ -12,6 +14,7 @@ import { cleanSessionStorage } from '@utils/sessionStorage.service';
 import { clearUsername } from '@components/login/login.actions';
 import { ToggleSwitch } from './components/toggleSwitch';
 import { Link } from 'react-router-dom';
+import { generateJsonBackup } from '@utils/createAndParseDiffData';
 
 type SettingsProps = {
   fixedWidth: boolean;
@@ -22,6 +25,9 @@ type SettingsProps = {
   setRedditApp: (RedditApp) => void;
   clearSubmissions: () => void;
   clearUsername: () => void;
+
+  submissionsById: any;
+  submissionsAllIds: any;
 };
 
 type SettingsState = {
@@ -155,6 +161,25 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               ))}
             </select>
           </div>
+          <div className="header__settings__setting">
+            <button
+              className="link-button"
+              onClick={_ => {
+                const blob = generateJsonBackup(
+                  this.props.submissionsById,
+                  this.props.submissionsAllIds
+                );
+                saveAs(
+                  blob,
+                  `${moment().format(
+                    'YYYY-MM-DD-HHmm'
+                  )}.saved.browser.backup.json`
+                );
+              }}
+            >
+              Download backup
+            </button>
+          </div>
           <p>
             <Link to="/about">About Saved Browser</Link>
           </p>
@@ -166,6 +191,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
 const mapStateToProps = (state: AppState) => ({
   ...state.settings,
+  submissionsById: state.savedListing.submissionsById,
+  submissionsAllIds: state.savedListing.submissionsAllIds,
 });
 
 const mapDispatchToProps = {
