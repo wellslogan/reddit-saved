@@ -28,20 +28,26 @@ class LoginComponent extends React.Component<LoginComponentProps, {}> {
 
   render() {
     const { username } = this.props;
-    if (username) {
-      return (
-        <div>
-          Hi, <strong>{username}</strong>! You're already logged in,{' '}
-          <Link to="/listing">
-            click here to browse the listing{' '}
-            <FontAwesomeIcon icon={faArrowCircleRight} />
-          </Link>
-        </div>
-      );
-    }
     return (
       <>
-        <a href="/api/auth/reddit">Click me to login</a>
+        <p>
+          {username ? (
+            <>
+              Hi, <strong>{username}</strong>! You're already logged in,{' '}
+              <Link to="/listing">
+                click here to browse the listing{' '}
+                <FontAwesomeIcon icon={faArrowCircleRight} />
+              </Link>
+            </>
+          ) : (
+            <a href="/api/auth/reddit">
+              Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
+            </a>
+          )}
+        </p>
+        <p>
+          <Link to="/about">About</Link> Saved Browser
+        </p>
       </>
     );
   }

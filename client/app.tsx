@@ -7,7 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import './extensions';
 
 import { createAndPersistStore } from './configureStore';
-import { Login, Settings, SavedListing } from '@components';
+import { Login, Settings, SavedListing, AboutComponent } from '@components';
 
 const { store, persistor } = createAndPersistStore();
 
@@ -24,6 +24,7 @@ const App = () => (
               <Settings />
             </header>
             <Route path="/" exact component={Login} />
+            <Route path="/about" component={AboutComponent} />
             <Route path="/listing" component={SavedListing} />
           </>
         </BrowserRouter>

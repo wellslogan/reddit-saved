@@ -11,6 +11,7 @@ import { clearSubmissions } from '@components/savedListing/savedListing.actions'
 import { cleanSessionStorage } from '@utils/sessionStorage.service';
 import { clearUsername } from '@components/login/login.actions';
 import { ToggleSwitch } from './components/toggleSwitch';
+import { Link } from 'react-router-dom';
 
 type SettingsProps = {
   fixedWidth: boolean;
@@ -28,6 +29,9 @@ type SettingsState = {
 };
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
+  private _settingsContainerRef;
+  private _closeBtnRef;
+
   constructor(props: SettingsProps) {
     super(props);
     this.state = { isOpen: false };
@@ -48,6 +52,26 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
       }
     }
   }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutsideToClose);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutsideToClose);
+  }
+
+  handleClickOutsideToClose = event => {
+    if (
+      this._settingsContainerRef &&
+      !this._settingsContainerRef.contains(event.target) &&
+      // prevent race condition w/ close button click
+      !this._closeBtnRef.contains(event.target) &&
+      this.state.isOpen
+    ) {
+      this.setState({ isOpen: false });
+    }
+  };
 
   // update the DOM
   toggleNightCSSClass() {
@@ -74,6 +98,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           onClick={() =>
             this.setState(prevState => ({ isOpen: !prevState.isOpen }))
           }
+          ref={ref => (this._closeBtnRef = ref)}
         >
           <FontAwesomeIcon
             icon={this.state.isOpen ? faTimes : faCog}
@@ -84,6 +109,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           className={`header__settings ${
             this.state.isOpen ? 'settings-open' : ''
           }`}
+          ref={ref => (this._settingsContainerRef = ref)}
         >
           <div className="header__settings__setting">
             <button className="link-button" onClick={() => this.handleLogout()}>
@@ -129,6 +155,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               ))}
             </select>
           </div>
+          <p>
+            <Link to="/about">About Saved Browser</Link>
+          </p>
         </div>
       </>
     );

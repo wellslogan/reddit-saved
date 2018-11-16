@@ -32,7 +32,7 @@ export class PostComponent extends React.Component<PostProps, PostState> {
 
   render() {
     const { post, redditApp, style } = this.props;
-    const collapseIcon = this.state.collapsed ? faChevronUp : faChevronDown;
+    const collapseIcon = this.state.collapsed ? faChevronDown : faChevronUp;
 
     const RedditLinkWithApp = ({ url, children }) => (
       <RedditLink url={url} app={redditApp}>

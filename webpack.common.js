@@ -50,6 +50,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/index.ejs',
+      favicon: './favicon.ico',
     }),
   ],
 
