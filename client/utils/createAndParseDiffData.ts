@@ -3,17 +3,19 @@ import { NormalizedRedditSubmissions } from './normalization';
 
 export const generateJsonBackup = (
   submissionsById: { [id: string]: RedditSubmission },
-  submissionsAllIds: string[]
+  submissionsAllIds: string[],
+  subreddits: string[]
 ) => {
   const stringified = JSON.stringify({
     version: '1.0',
     submissionsById,
     submissionsAllIds,
+    subreddits,
   });
   return new Blob([stringified], { type: 'application/json' });
 };
 
-const parseJsonBackup = (stringified: string) => {
+export const parseJsonBackup = (stringified: string) => {
   const backup = JSON.parse(stringified);
 
   if (!backup.version || backup.version !== '1.0') {
@@ -23,43 +25,71 @@ const parseJsonBackup = (stringified: string) => {
   return backup;
 };
 
-// const mergeJsonBackup = (
-//   serverSubmissions: NormalizedRedditSubmissions,
-//   fromFileSubmissions: NormalizedRedditSubmissions
-// ): NormalizedRedditSubmissions => {
+export const mergeJsonBackup = (
+  serverSubmissions: NormalizedRedditSubmissions,
+  fromFileSubmissions: NormalizedRedditSubmissions
+): NormalizedRedditSubmissions => {
+  // add 'restoredFromFile' flag for fromFile submissions
+  fromFileSubmissions.allIds.forEach(id => {
+    fromFileSubmissions.byId[id].restoredFromFile = true;
+  });
 
-// };
+  const resultById = {
+    ...fromFileSubmissions.byId,
+    ...serverSubmissions.byId,
+  };
+  const resultAllIds = mergeArrayOrder(
+    serverSubmissions.allIds,
+    fromFileSubmissions.allIds
+  );
 
-// const normalizeSubmissions = (
-//   submissions: RedditSubmission[]
-// ): { [key: string]: RedditSubmission } => {
-//   return submissions.reduce((acc, current: RedditSubmission) => {
-//     acc[current.data.id] = {
-//       ...current,
-//       restoredFromFile: true,
-//     };
-//     return acc;
-//   }, Object.create(null));
-// };
+  const resultSubreddits = {
+    ...serverSubmissions.subreddits,
+    ...fromFileSubmissions.subreddits,
+  };
 
-// export const generateJsonFileContents = (
-//   submissions: RedditSubmission[]
-// ): string => {
-//   const exportData = {
-//     version: '1.0',
-//     submissions: normalizeSubmissions(submissions),
-//   };
+  return {
+    allIds: resultAllIds,
+    byId: resultById,
+    subreddits: resultSubreddits,
+  };
+};
 
-//   return JSON.stringify(exportData);
-// };
+export const mergeArrayOrder = (fromServer: any[], fromFile: any[]) => {
+  if (!fromServer.length) return fromFile;
 
-// export const parseJsonFileContents = (contents: string) => {
-//   const parsed = JSON.parse(contents);
+  let result = [];
+  let lastFileIdx = -1;
 
-//   if (parsed.version !== '1.0') {
-//     console.error('invalid file');
-//     return;
-//   }
+  for (let i = 0; i < fromServer.length; i++) {
+    const serverCur = fromServer[i];
 
-//   return parsed;
-// };
+    // check index on fromFile
+    let idxOnFromFile = fromFile.indexOf(serverCur);
+
+    if (idxOnFromFile < 0) {
+      // not present on fromFile
+      result.push(serverCur);
+    } else {
+      // present on fromFile
+      if (idxOnFromFile >= lastFileIdx + 1) {
+        // need to reconstruct
+        result = [
+          ...result,
+          ...reconstruct(fromFile, lastFileIdx, idxOnFromFile),
+        ];
+        lastFileIdx = idxOnFromFile;
+      }
+    }
+
+    // if this is the last server id, and we haven't covered the full
+    // fromFile array, append it
+    if (i === fromServer.length - 1 && lastFileIdx < fromFile.length - 1) {
+      result = [...result, ...fromFile.slice(fromFile.indexOf(serverCur) + 1)];
+    }
+  }
+
+  return result;
+};
+
+const reconstruct = (ids, start, end) => ids.slice(start + 1, end + 1);

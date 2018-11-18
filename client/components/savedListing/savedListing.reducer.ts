@@ -2,6 +2,7 @@ import { RedditPost, RedditComment, RedditSubmission } from '@models';
 import { SavedListingActions } from './savedListing.actions';
 import { ifCommentOrPostDo } from '@utils/helpers';
 import { normalizeRedditSubmissions } from '@utils/normalization';
+import { mergeJsonBackup } from '@utils/createAndParseDiffData';
 
 export type SavedListingState = {
   loading: boolean;
@@ -48,6 +49,19 @@ export const savedListingReducer = (
       submissionsAllIds: [],
       subreddits: {},
     }),
+    [SavedListingActions.MERGE_IN_SUBMISSIONS]: () => {
+      const serverSubmissions = {
+        byId: state.submissionsById,
+        allIds: state.submissionsAllIds,
+        subreddits: state.subreddits,
+      };
+      const merged = mergeJsonBackup(serverSubmissions, action.submissions);
+      return {
+        submissionsById: merged.byId,
+        submissionsAllIds: merged.allIds,
+        subreddits: merged.subreddits,
+      };
+    },
   };
 
   const getNextState = actionHandlers[action.type] || (() => state);

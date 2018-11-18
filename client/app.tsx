@@ -3,11 +3,9 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-// import extensions
-import './extensions';
-
 import { createAndPersistStore } from './configureStore';
 import { Login, Settings, SavedListing, AboutComponent } from '@components';
+import { mergeArrayOrder } from '@utils/createAndParseDiffData';
 
 const { store, persistor } = createAndPersistStore();
 

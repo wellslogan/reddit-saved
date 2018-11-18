@@ -42,8 +42,15 @@ export class PostComponent extends React.Component<PostProps, PostState> {
 
     return (
       <div style={{ ...style, padding: '1em 0' }}>
-        <article className="article--post">
+        <article
+          className={`article--post ${post.restoredFromFile ? 'restored' : ''}`}
+        >
           <header className="article--post__header">
+            {post.restoredFromFile ? (
+              <span className="article--post__header__restored-badge">
+                restored
+              </span>
+            ) : null}
             <RedditLinkWithApp url={post.data.url}>
               {post.data.title}
             </RedditLinkWithApp>

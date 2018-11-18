@@ -3,6 +3,7 @@ import { retrieveRedditToken } from '@utils/sessionStorage.service';
 import { NO_SAVED_POSTS } from '@app/constants';
 import { fetchIdentity, fetchSaved } from '@utils/reddit.service';
 import { addUsername } from '@components/login/login.actions';
+import { NormalizedRedditSubmissions } from '@utils/normalization';
 
 export const SavedListingActions = {
   SET_SAVED_LISTING_LOADING: 'SAVEDLISTING:SET_SAVED_LISTING_LOADING',
@@ -10,6 +11,7 @@ export const SavedListingActions = {
   ADD_SUBREDDITS_LIST: 'SAVEDLISTING:ADD_SUBREDDITS_LIST',
   ADD_SUBMISSIONS: 'SAVEDLISTING:ADD_SUBMISSIONS',
   CLEAR_SUBMISSIONS: 'SAVEDLISTING:CLEAR_SUBMISSIONS',
+  MERGE_IN_SUBMISSIONS: 'SAVEDLISTING:MERGE_IN_SUBMISSIONS',
 };
 
 export const setSavedListingLoading = (loading?: boolean) => ({
@@ -36,6 +38,13 @@ export const clearSubmissions = () => ({
   type: SavedListingActions.CLEAR_SUBMISSIONS,
 });
 
+export const mergeInSubmissions = (
+  submissions: NormalizedRedditSubmissions
+) => ({
+  type: SavedListingActions.MERGE_IN_SUBMISSIONS,
+  submissions,
+});
+
 type StateGetter = () => AppState;
 
 export const fetchSavedListingAsync = () => async (
@@ -46,7 +55,7 @@ export const fetchSavedListingAsync = () => async (
 
   const token = retrieveRedditToken();
 
-  if (!token) window.location = '/login' as any;
+  if (!token) window.location = '/' as any;
 
   const { data: profile } = await fetchIdentity(token);
 

@@ -17,6 +17,7 @@ import { fetchSavedListingAsync } from './savedListing.actions';
 import { LoadingGate } from './components/loadingGate';
 import { SubredditsListing } from './components/subredditsListing';
 import { ListingFilters } from './components/listingFilters';
+import { WarningModal } from './components/warningModal';
 
 type SavedListingProps = {
   redditApp: RedditApp;
@@ -64,6 +65,22 @@ class SavedListing extends React.Component<
           visibleSubmissions: this.props.submissionsAllIds,
         }));
       });
+    }
+  }
+
+  static getDerivedStateFromProps(
+    nextProps: SavedListingProps,
+    prevState: SavedListingState
+  ): Partial<SavedListingState> {
+    if (!prevState.searchQuery && !prevState.subredditFilter) {
+      // adding submissions via redux
+      if (
+        !nextProps.submissionsAllIds.every(id =>
+          prevState.visibleSubmissions.includes(id)
+        )
+      ) {
+        return { visibleSubmissions: nextProps.submissionsAllIds };
+      }
     }
   }
 
@@ -236,17 +253,17 @@ class SavedListing extends React.Component<
         submission,
         comment => {
           return (
-            comment.data.body.toLowerCase().contains(lcQuery) ||
-            comment.data.link_title.toLowerCase().contains(lcQuery) ||
-            comment.data.author.toLowerCase().contains(lcQuery) ||
-            comment.data.link_author.toLowerCase().contains(lcQuery)
+            comment.data.body.toLowerCase().includes(lcQuery) ||
+            comment.data.link_title.toLowerCase().includes(lcQuery) ||
+            comment.data.author.toLowerCase().includes(lcQuery) ||
+            comment.data.link_author.toLowerCase().includes(lcQuery)
           );
         },
         post => {
           return (
-            post.data.selftext.toLowerCase().contains(lcQuery) ||
-            post.data.title.toLowerCase().contains(lcQuery) ||
-            post.data.author.toLowerCase().contains(lcQuery)
+            post.data.selftext.toLowerCase().includes(lcQuery) ||
+            post.data.title.toLowerCase().includes(lcQuery) ||
+            post.data.author.toLowerCase().includes(lcQuery)
           );
         }
       );

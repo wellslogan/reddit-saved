@@ -66,6 +66,21 @@
         padding: 1em;
         margin: 1em 0;
 
+        &__header {
+          &__restored-badge {
+            display: block;
+            width: 100%;
+            color: $greensea;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+        }
+
+        &.restored {
+          border-color: $greensea;
+        }
+
         &:first-child {
           margin-top: 0;
         }
@@ -127,6 +142,22 @@
         .clear-subreddit {
           background: $darkmode_altbg;
           color: $white;
+        }
+      }
+
+      .article {
+
+        &--post,
+        &--comment {
+          &.restored {
+            border-color: $turquoise;
+          }
+
+          &__header {
+            &__restored-badge {
+              color: $turquoise;
+            }
+          }
         }
       }
     }

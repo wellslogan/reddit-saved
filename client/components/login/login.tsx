@@ -58,37 +58,3 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 export default connect(mapStateToProps)(LoginComponent);
-
-// class TestFileImport extends React.Component<any, any> {
-//   private _filePickerRef;
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       file: null,
-//     };
-//   }
-
-//   onImport = async () => {
-//     const f = this._filePickerRef.files.item(0);
-//     const data = await readJsonDataAsync(f);
-//     this.setState({
-//       file: JSON.stringify(data),
-//     });
-//   };
-
-//   render() {
-//     return (
-//       <>
-//         <input
-//           type="file"
-//           ref={ref => {
-//             this._filePickerRef = ref;
-//           }}
-//         />
-//         <button onClick={e => this.onImport()}>Import</button>
-//         <p>{this.state.file}</p>
-//       </>
-//     );
-//   }
-// }

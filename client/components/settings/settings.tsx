@@ -9,12 +9,20 @@ import * as moment from 'moment';
 import { AppState } from '@models/AppState';
 import { setNightMode, setRedditApp, setFixedWidth } from './settings.actions';
 import { RedditApp } from '@models';
-import { clearSubmissions } from '@components/savedListing/savedListing.actions';
+import {
+  clearSubmissions,
+  mergeInSubmissions,
+} from '@components/savedListing/savedListing.actions';
 import { cleanSessionStorage } from '@utils/sessionStorage.service';
 import { clearUsername } from '@components/login/login.actions';
 import { ToggleSwitch } from './components/toggleSwitch';
 import { Link } from 'react-router-dom';
-import { generateJsonBackup } from '@utils/createAndParseDiffData';
+import {
+  generateJsonBackup,
+  parseJsonBackup,
+} from '@utils/createAndParseDiffData';
+import { ImportBackup } from './components/importBackup';
+import { NormalizedRedditSubmissions } from '@utils/normalization';
 
 type SettingsProps = {
   fixedWidth: boolean;
@@ -25,9 +33,11 @@ type SettingsProps = {
   setRedditApp: (RedditApp) => void;
   clearSubmissions: () => void;
   clearUsername: () => void;
+  mergeInSubmissions: (submissions: NormalizedRedditSubmissions) => void;
 
   submissionsById: any;
-  submissionsAllIds: any;
+  submissionsAllIds: string[];
+  subreddits: string[];
 };
 
 type SettingsState = {
@@ -93,6 +103,16 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     this.props.clearSubmissions();
     this.props.clearUsername();
     window.location.href = '/';
+  };
+
+  handleImport = data => {
+    // const parsed = parseJsonBackup(data);
+    const parsed = data;
+    this.props.mergeInSubmissions({
+      allIds: parsed.submissionsAllIds,
+      byId: parsed.submissionsById,
+      subreddits: parsed.subreddits,
+    });
   };
 
   render() {
@@ -167,7 +187,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               onClick={_ => {
                 const blob = generateJsonBackup(
                   this.props.submissionsById,
-                  this.props.submissionsAllIds
+                  this.props.submissionsAllIds,
+                  this.props.subreddits
                 );
                 saveAs(
                   blob,
@@ -179,6 +200,13 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
             >
               Download backup
             </button>
+          </div>
+          <div className="header__settings__setting">
+            <ImportBackup
+              onImport={data => {
+                this.handleImport(data);
+              }}
+            />
           </div>
           <p>
             <Link to="/about">About Saved Browser</Link>
@@ -193,6 +221,7 @@ const mapStateToProps = (state: AppState) => ({
   ...state.settings,
   submissionsById: state.savedListing.submissionsById,
   submissionsAllIds: state.savedListing.submissionsAllIds,
+  subreddits: state.savedListing.subreddits,
 });
 
 const mapDispatchToProps = {
@@ -201,6 +230,7 @@ const mapDispatchToProps = {
   setFixedWidth,
   clearSubmissions,
   clearUsername,
+  mergeInSubmissions,
 };
 
 export default connect(

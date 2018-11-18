@@ -24,13 +24,17 @@ export const CommentComponent: React.StatelessComponent<CommentProps> = ({
 
   return (
     <div style={{ ...style, padding: '0.5em 0' }}>
-      <article className="article--comment">
+      <article
+        className={`article--comment ${
+          comment.restoredFromFile ? 'restored' : ''
+        }`}
+      >
         <header className="article--comment__header">
-          {/* {restoredFromFile ? (
-              <div className="article--comment__header__post-restored">
-                RESTORED FROM FILE
-              </div>
-            ) : null} */}
+          {comment.restoredFromFile ? (
+            <span className="article--comment__header__restored-badge">
+              restored
+            </span>
+          ) : null}
           <div className="article--comment__header__post-info">
             <RedditLinkWithApp url={comment.data.link_url}>
               {comment.data.link_title}
