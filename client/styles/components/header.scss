@@ -2,6 +2,11 @@
   position: relative;
 
   .settings-button {
+    appearance: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background: transparent;
     position: fixed;
     top: 2em;
     right: 2em;
@@ -54,8 +59,16 @@
 
 .night {
   .header {
+    .settings-button {
+      color: $white;
+    }
+
     &__settings {
       background: $darkmode_altbg;
+
+      button.btn {
+        background-color: $darkblue;
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
-import { retrieveRedditToken } from './sessionStorage.service';
 import { REDDIT_URI } from '@app/constants';
 import { RedditListing } from '@models';
+import { waitSeconds } from './helpers';
 
 const createRequestOptions = token => ({
   headers: {
@@ -22,4 +22,13 @@ export const fetchSaved = (
     REDDIT_URI + `/user/${username}/saved?limit=100&after=${after || 'null'}`,
     createRequestOptions(token)
   );
+};
+
+export const checkRateLimitAndWait = (headers: any): Promise<{}> => {
+  return new Promise(async resolve => {
+    if (parseFloat(headers['x-ratelimit-remaining']) === 0) {
+      await waitSeconds(headers['x-ratelimit-reset']);
+    }
+    resolve();
+  });
 };

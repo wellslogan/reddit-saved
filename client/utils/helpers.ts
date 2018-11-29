@@ -70,3 +70,11 @@ export const fixRelativeLinks = (
 ): string => {
   return htmlString.replace(/\<a href="\//gm, `<a href="${appMapping[app]}/`);
 };
+
+/**
+ * Waits for a set amount of time (to throttle Reddit API calls when the limit is reached)
+ * @param seconds number of seconds to wait (from X-Ratelimit-Reset header)
+ * @returns a Promise that resolves when `seconds` has elapsed
+ */
+export const waitSeconds = (seconds: number): Promise<{}> =>
+  new Promise(resolve => setTimeout(resolve, seconds * 1000));

@@ -33,7 +33,7 @@ type SettingsProps = {
   setRedditApp: (RedditApp) => void;
   clearSubmissions: () => void;
   clearUsername: () => void;
-  mergeInSubmissions: (submissions: NormalizedRedditSubmissions) => void;
+  mergeInSubmissions: (submissions: NormalizedRedditSubmissions) => any;
 
   submissionsById: any;
   submissionsAllIds: string[];
@@ -113,14 +113,20 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
       byId: parsed.submissionsById,
       subreddits: parsed.subreddits,
     });
+
+    this.setState({ isOpen: false }, () => {
+      window.location.href = '/listing';
+    });
   };
 
   render() {
     const { nightMode, setNightMode, fixedWidth, setFixedWidth } = this.props;
+    const areSubmissions = this.props.submissionsAllIds.length;
     return (
       <>
         <button
-          className="link-button settings-button"
+          className="settings-button"
+          data-testid="settingsBtn"
           onClick={() =>
             this.setState(prevState => ({ isOpen: !prevState.isOpen }))
           }
@@ -138,7 +144,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
           ref={ref => (this._settingsContainerRef = ref)}
         >
           <div className="header__settings__setting">
-            <button className="link-button" onClick={() => this.handleLogout()}>
+            <button
+              className="btn"
+              data-testid="logoutBtn"
+              onClick={() => this.handleLogout()}
+            >
               Logout
             </button>
           </div>
@@ -181,26 +191,29 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
               ))}
             </select>
           </div>
-          <div className="header__settings__setting">
-            <button
-              className="link-button"
-              onClick={_ => {
-                const blob = generateJsonBackup(
-                  this.props.submissionsById,
-                  this.props.submissionsAllIds,
-                  this.props.subreddits
-                );
-                saveAs(
-                  blob,
-                  `${moment().format(
-                    'YYYY-MM-DD-HHmm'
-                  )}.saved.browser.backup.json`
-                );
-              }}
-            >
-              Download backup
-            </button>
-          </div>
+          {areSubmissions ? (
+            <div className="header__settings__setting">
+              <button
+                className="btn"
+                data-testid="backupBtn"
+                onClick={_ => {
+                  const blob = generateJsonBackup(
+                    this.props.submissionsById,
+                    this.props.submissionsAllIds,
+                    this.props.subreddits
+                  );
+                  saveAs(
+                    blob,
+                    `${moment().format(
+                      'YYYY-MM-DD-HHmm'
+                    )}.saved.browser.backup.json`
+                  );
+                }}
+              >
+                Download backup
+              </button>
+            </div>
+          ) : null}
           <div className="header__settings__setting">
             <ImportBackup
               onImport={data => {

@@ -1,0 +1,22 @@
+button.btn {
+  appearance: none;
+  padding: 8px 10px;
+  background-color: $lightblue;
+  border: none;
+  border-radius: 0.5em;
+  font-size: 1em;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.night {
+  button.btn {
+    color: $white;
+    background-color: $darkmode_altbg;
+  }
+}

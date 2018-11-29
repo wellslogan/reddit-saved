@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 type LoginComponentProps = {
   location: { search: string };
+  submissionsAllIds: string[];
   username?: string;
 };
 
@@ -28,21 +29,29 @@ class LoginComponent extends React.Component<LoginComponentProps, {}> {
 
   render() {
     const { username } = this.props;
+    const areSubmissions = this.props.submissionsAllIds.length;
     return (
       <>
         <p>
-          {username ? (
+          {username || areSubmissions ? (
             <>
-              Hi, <strong>{username}</strong>! You're already logged in,{' '}
+              {username ? (
+                <>
+                  Hi, <strong>{username}</strong>! You're already logged in,{' '}
+                </>
+              ) : null}
               <Link to="/listing">
                 click here to browse the listing{' '}
                 <FontAwesomeIcon icon={faArrowCircleRight} />
               </Link>
             </>
           ) : (
-            <a href="/api/auth/reddit">
-              Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
-            </a>
+            <>
+              <a href="/api/auth/reddit">
+                Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
+              </a>
+              <p>Or, upload a backup file to browse using the settings menu</p>
+            </>
           )}
         </p>
         <p>
@@ -55,6 +64,7 @@ class LoginComponent extends React.Component<LoginComponentProps, {}> {
 
 const mapStateToProps = (state: AppState) => ({
   username: state.login.username,
+  submissionsAllIds: state.savedListing.submissionsAllIds,
 });
 
 export default connect(mapStateToProps)(LoginComponent);

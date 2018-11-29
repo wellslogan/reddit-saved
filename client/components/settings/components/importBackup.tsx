@@ -21,6 +21,7 @@ export class ImportBackup extends React.Component<ImportBackupProps, {}> {
   render() {
     return (
       <>
+        <label>Import backup file:</label>
         <input
           type="file"
           id="backupFileImport"
