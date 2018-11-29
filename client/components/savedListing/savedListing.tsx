@@ -89,6 +89,9 @@ class SavedListing extends React.Component<
    */
   resetCache = (): void => {
     this._cache.clearAll();
+    // hack to get the container to actually resize,
+    // by forcing a scroll event
+    window.dispatchEvent(new Event('scroll'));
   };
 
   /**
@@ -201,7 +204,17 @@ class SavedListing extends React.Component<
                                   key={key}
                                   redditApp={this.props.redditApp}
                                   style={style}
-                                  onSelfTextToggle={() => this.resetCache()}
+                                  onSelfTextToggle={() => {
+                                    this.resetCache();
+                                    window.scrollTo(
+                                      window.scrollX,
+                                      window.scrollY - 1
+                                    );
+                                    window.scrollTo(
+                                      window.scrollX,
+                                      window.scrollY + 1
+                                    );
+                                  }}
                                 />
                               )
                             )}
