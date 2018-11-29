@@ -57,11 +57,11 @@ export class PostComponent extends React.Component<PostProps, PostState> {
           </header>
           <section className="article--post__byline">
             submitted {moment.unix(post.data.created).fromNow()} by{' '}
-            <RedditLinkWithApp url={`u/${post.data.author}`}>
+            <RedditLinkWithApp url={`/u/${post.data.author}`}>
               {post.data.author}
             </RedditLinkWithApp>
             {' to '}
-            <RedditLinkWithApp url={`r/${post.data.subreddit}`}>
+            <RedditLinkWithApp url={`/r/${post.data.subreddit}`}>
               r/{post.data.subreddit}
             </RedditLinkWithApp>
           </section>
