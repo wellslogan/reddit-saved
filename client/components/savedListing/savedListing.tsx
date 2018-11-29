@@ -204,17 +204,7 @@ class SavedListing extends React.Component<
                                   key={key}
                                   redditApp={this.props.redditApp}
                                   style={style}
-                                  onSelfTextToggle={() => {
-                                    this.resetCache();
-                                    window.scrollTo(
-                                      window.scrollX,
-                                      window.scrollY - 1
-                                    );
-                                    window.scrollTo(
-                                      window.scrollX,
-                                      window.scrollY + 1
-                                    );
-                                  }}
+                                  onSelfTextToggle={() => this.resetCache()}
                                 />
                               )
                             )}
