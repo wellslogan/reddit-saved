@@ -27,7 +27,8 @@ export const ListingFilters: React.StatelessComponent<ListingFiltersProps> = ({
         type="text"
         placeholder="type to filter"
         data-testid="filterInput"
-      />{' '}
+      />
+      &nbsp;
       <select
         className="listing__submissions__filter__subreddits"
         onChange={e => onSubredditFilterChange(e.target.value)}
@@ -40,6 +41,7 @@ export const ListingFilters: React.StatelessComponent<ListingFiltersProps> = ({
           </option>
         ))}
       </select>
+      &nbsp;
       {subredditFilter ? (
         <button
           className="badge-button clear-subreddit"

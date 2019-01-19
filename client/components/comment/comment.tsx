@@ -16,11 +16,8 @@ export const CommentComponent: React.StatelessComponent<CommentProps> = ({
   comment,
   style,
 }) => {
-  const RedditLinkWithApp = ({ url, children }) => (
-    <RedditLink url={url} app={redditApp}>
-      {children}
-    </RedditLink>
-  );
+  const RedditLinkWithApp = ({ url, children }) =>
+    RedditLink({ app: redditApp, url, children });
 
   return (
     <div style={{ ...style, padding: '0.5em 0' }}>

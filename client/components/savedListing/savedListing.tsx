@@ -139,12 +139,12 @@ class SavedListing extends React.Component<
       <>
         {loading ? <LoadingGate /> : null}
         <main className="listing">
-          <aside className="listing__subreddits-list">
+          {/* <aside className="listing__subreddits-list">
             <SubredditsListing
               subreddits={subreddits}
               onClickSubreddit={sub => this.addSubredditFilter(sub)}
             />
-          </aside>
+          </aside> */}
           <section className="listing__submissions">
             <section className="listing__submissions__filter">
               <ListingFilters

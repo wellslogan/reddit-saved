@@ -34,11 +34,8 @@ export class PostComponent extends React.Component<PostProps, PostState> {
     const { post, redditApp, style } = this.props;
     const collapseIcon = this.state.collapsed ? faChevronDown : faChevronUp;
 
-    const RedditLinkWithApp = ({ url, children }) => (
-      <RedditLink url={url} app={redditApp}>
-        {children}
-      </RedditLink>
-    );
+    const RedditLinkWithApp = ({ url, children }) =>
+      RedditLink({ app: redditApp, url, children });
 
     return (
       <div style={{ ...style, padding: '1em 0' }}>

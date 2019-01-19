@@ -33,16 +33,9 @@
         }
       }
 
-      &__subreddits {
-        @include breakpoint(sm) {
-          display: none;
-        }
-      }
-
       .clear-subreddit {
         font-size: 1.2em;
         background: $lightblue;
-        margin-left: 1em;
 
         @include breakpoint(xs) {
           margin-left: 0;
