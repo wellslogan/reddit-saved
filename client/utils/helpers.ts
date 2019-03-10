@@ -78,3 +78,23 @@ export const fixRelativeLinks = (
  */
 export const waitSeconds = (seconds: number): Promise<{}> =>
   new Promise(resolve => setTimeout(resolve, seconds * 1000));
+
+/**
+ * Adds or removes a css class on the <body> based on
+ * some condition, such that if the condition evals to
+ * TRUE, the cssClass WILL be on the <body>, and vice-versa.
+ * @param condition the condition to evaluate
+ * @param cssClass the css class to add or remove from the <body>
+ */
+export const updateGlobalCSSSetting = (
+  condition: boolean,
+  cssClass: string
+) => {
+  const isClassOnBody = document.body.classList.contains(cssClass);
+
+  if (condition && !isClassOnBody) {
+    document.body.classList.add(cssClass);
+  } else if (!condition && isClassOnBody) {
+    document.body.classList.remove(cssClass);
+  }
+};

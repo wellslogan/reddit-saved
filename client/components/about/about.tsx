@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export const AboutComponent: React.StatelessComponent<{}> = _ => (
-  <>
+  <div className="container">
     <h2>About Saved Browser</h2>
     <p>
       Saved Browser for reddit is an{' '}
@@ -28,8 +28,9 @@ export const AboutComponent: React.StatelessComponent<{}> = _ => (
       <a href="https://github.com/twitter/twemoji" target="_blank">
         twemoji
       </a>
+      .
     </p>
-  </>
+  </div>
 );
 
 AboutComponent.displayName = 'AboutComponent';

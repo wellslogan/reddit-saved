@@ -6,65 +6,70 @@ import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons/faArrowCir
 
 import { storeRedditToken } from '@utils/sessionStorage.service';
 import { AppState } from '@models';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { setRedditToken } from './login.actions';
 
-type LoginComponentProps = {
-  location: { search: string };
+type StateProps = {
   submissionsAllIds: string[];
   username?: string;
+  redditToken?: string;
+  setRedditToken: (token: string) => void;
 };
 
-class LoginComponent extends React.Component<LoginComponentProps, {}> {
-  constructor(props) {
-    super(props);
-  }
+const LoginComponent: React.FunctionComponent<
+  StateProps & RouteComponentProps
+> = props => {
+  const { username, submissionsAllIds, setRedditToken } = props;
 
-  componentDidMount() {
-    const { success, token } = parse(this.props.location.search);
+  const handleMount = () => {
+    const { success, token } = parse(props.location.search);
     if (success === 'true' && token) {
-      storeRedditToken(token);
-      window.location.href = '/listing';
+      setRedditToken(token);
+      props.history.push('/listing');
     }
-  }
+  };
 
-  render() {
-    const { username } = this.props;
-    const areSubmissions = this.props.submissionsAllIds.length;
-    return (
+  React.useEffect(handleMount, [props.location.search]);
+
+  return (
+    <div className="container">
       <>
-        <p>
-          {username || areSubmissions ? (
-            <>
-              {username ? (
-                <>
-                  Hi, <strong>{username}</strong>! You're already logged in,{' '}
-                </>
-              ) : null}
-              <Link to="/listing">
-                click here to browse the listing{' '}
-                <FontAwesomeIcon icon={faArrowCircleRight} />
-              </Link>
-            </>
-          ) : (
-            <>
-              <a href="/api/auth/reddit">
-                Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
-              </a>
-              <p>Or, upload a backup file to browse using the settings menu</p>
-            </>
-          )}
-        </p>
-        <p>
-          <Link to="/about">About</Link> Saved Browser
-        </p>
+        {username || submissionsAllIds.length ? (
+          <p>
+            {username ? (
+              <>
+                Hi, <strong>{username}</strong>! You're already logged in,{' '}
+              </>
+            ) : null}
+            <Link to="/listing">
+              click here to browse the listing{' '}
+              <FontAwesomeIcon icon={faArrowCircleRight} />
+            </Link>
+          </p>
+        ) : (
+          <>
+            <a href="/api/auth/reddit">
+              Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
+            </a>
+            <p>Or, upload a backup file to browse using the settings menu</p>
+          </>
+        )}
       </>
-    );
-  }
-}
+      <p>
+        <Link to="/about">About</Link> Saved Browser
+      </p>
+    </div>
+  );
+};
+
+LoginComponent.displayName = 'LoginComponent';
 
 const mapStateToProps = (state: AppState) => ({
   username: state.login.username,
   submissionsAllIds: state.savedListing.submissionsAllIds,
 });
 
-export default connect(mapStateToProps)(LoginComponent);
+export default connect(
+  mapStateToProps,
+  { setRedditToken }
+)(LoginComponent);

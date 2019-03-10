@@ -1,16 +1,19 @@
-button.btn {
+button.btn,
+input[type='file'] {
   appearance: none;
-  padding: 8px 10px;
-  background-color: $lightblue;
+  padding: 0.8em 1em;
+  background-color: $deeppurple500;
+  color: $white;
   border: none;
   border-radius: 0.5em;
-  font-size: 1em;
-  text-transform: uppercase;
+  font-size: 12pt;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.1s ease-in-out;
 
   &:hover {
-    text-decoration: underline;
+    background-color: $indigo800;
+    transition: background-color 0.1s ease-in-out;
   }
 }
 

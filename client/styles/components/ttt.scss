@@ -1,0 +1,33 @@
+.to-the-top {
+  @extend .box-shadow;
+
+  $transition: transform 0.1s ease-in-out;
+
+  position: fixed;
+  background-color: $bluegrey100;
+  color: $bluegrey700;
+  z-index: 998;
+  right: 0;
+  top: 2em;
+  border-radius: 50%;
+  transform: translateX(100%);
+  transition: $transition;
+
+  &.to-the-top-visible {
+    left: unset;
+    right: 2em;
+    transform: none;
+    transition: $transition;
+  }
+
+  button {
+    @extend .p-1;
+  }
+}
+
+// global setting should hide it
+.disable-to-the-top {
+  .to-the-top {
+    display: none;
+  }
+}

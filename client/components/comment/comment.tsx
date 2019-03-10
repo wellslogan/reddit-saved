@@ -4,6 +4,8 @@ import * as moment from 'moment';
 import { RedditLink } from '@components';
 import { RedditComment, RedditApp } from '@models';
 import { htmlDecode, fixRelativeLinks } from '@utils/helpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
 
 type CommentProps = {
   comment: RedditComment;
@@ -16,59 +18,46 @@ export const CommentComponent: React.StatelessComponent<CommentProps> = ({
   comment,
   style,
 }) => {
-  const RedditLinkWithApp = ({ url, children }) =>
-    RedditLink({ app: redditApp, url, children });
+  const {
+    link_url,
+    link_title,
+    link_author,
+    subreddit,
+    author,
+    score,
+    created,
+    body_html,
+    permalink,
+  } = comment.data;
 
   return (
-    <div style={{ ...style, padding: '0.5em 0' }}>
-      <article
-        className={`article--comment ${
-          comment.restoredFromFile ? 'restored' : ''
-        }`}
-      >
-        <header className="article--comment__header">
-          {comment.restoredFromFile ? (
-            <span className="article--comment__header__restored-badge">
-              restored
-            </span>
-          ) : null}
-          <div className="article--comment__header__post-info">
-            <RedditLinkWithApp url={comment.data.link_url}>
-              {comment.data.link_title}
-            </RedditLinkWithApp>{' '}
-            <span className="article--comment__header__post-info__byline">
-              by{' '}
-              <RedditLinkWithApp url={`/u/${comment.data.link_author}`}>
-                {comment.data.link_author}
-              </RedditLinkWithApp>{' '}
-              in{' '}
-              <RedditLinkWithApp url={`/r/${comment.data.subreddit}`}>
-                {comment.data.subreddit}
-              </RedditLinkWithApp>
-            </span>
-          </div>
-          <div className="article--comment__header__byline">
-            <RedditLinkWithApp url={`/u/${comment.data.author}`}>
-              <strong>{comment.data.author}</strong>
-            </RedditLinkWithApp>{' '}
-            <strong>{comment.data.score} points</strong>{' '}
-            {moment.unix(comment.data.created).fromNow()}
-          </div>
+    <div style={{ ...style /*padding: '0.5em 0' */ }}>
+      <article className="submission submission-comment">
+        <header>
+          <h3>
+            <RedditLink url={link_url}>{link_title}</RedditLink>
+            {' by '}
+            <RedditLink user={link_author}>{link_author}</RedditLink>
+            {' in '}
+            <RedditLink subreddit={subreddit}>{subreddit}</RedditLink>
+          </h3>
+          <h1>
+            <strong>
+              <RedditLink user={author}>{author}</RedditLink> {score} points{' '}
+            </strong>
+            {moment.unix(created).fromNow()}
+          </h1>
         </header>
+        <aside>
+          <RedditLink url={permalink} title="go to permalink">
+            <FontAwesomeIcon icon={faExternalLinkAlt} size="2x" />
+          </RedditLink>
+        </aside>
         <main
-          className="article--comment__main"
           dangerouslySetInnerHTML={{
-            __html: fixRelativeLinks(
-              htmlDecode(comment.data.body_html),
-              redditApp
-            ),
+            __html: fixRelativeLinks(htmlDecode(body_html), redditApp),
           }}
         />
-        <footer className="article--comment__footer">
-          <RedditLinkWithApp url={comment.data.permalink}>
-            <strong>Permalink</strong>
-          </RedditLinkWithApp>
-        </footer>
       </article>
     </div>
   );

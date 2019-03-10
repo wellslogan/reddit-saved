@@ -2,6 +2,11 @@ import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { FilterInput } from './filterInput';
+import { TextInput } from '@components/input/input';
+import { Select } from '@components/select/select';
+import { RadioGroup } from '@components/radioGroup/radioGroup';
+import { SelectFilter } from './selectFilter';
+import { InputFilter } from './inputFilter';
 
 type ListingFiltersProps = {
   allSubreddits: string[];
@@ -9,49 +14,42 @@ type ListingFiltersProps = {
   onQueryFilterChange: (query: string) => void;
   subredditFilter: string;
   onSubredditFilterChange: (subreddit: string) => void;
+  postsOrComments: string;
+  onPostsOrCommentsChange: (postsOrComments: string) => void;
 };
 
 export const ListingFilters: React.StatelessComponent<ListingFiltersProps> = ({
   allSubreddits,
   queryFilter,
   subredditFilter,
+  postsOrComments,
   onQueryFilterChange,
   onSubredditFilterChange,
+  onPostsOrCommentsChange,
 }) => {
   return (
-    <>
-      <FilterInput
+    <aside className="filter-container">
+      <InputFilter
         value={queryFilter}
         onChange={query => onQueryFilterChange(query)}
-        onClear={() => onQueryFilterChange('')}
-        type="text"
-        placeholder="type to filter"
-        data-testid="filterInput"
+        placeholder="filter by content"
       />
       &nbsp;
-      <select
-        className="listing__submissions__filter__subreddits"
-        onChange={e => onSubredditFilterChange(e.target.value)}
-        value={subredditFilter}
-      >
-        <option value="">filter by subreddit</option>
-        {allSubreddits.map(sub => (
-          <option key={sub} value={sub}>
-            {sub}
-          </option>
-        ))}
-      </select>
+      <SelectFilter
+        selectedValue={subredditFilter}
+        defaultOption="filter by subreddit"
+        options={allSubreddits}
+        onChange={nextSub => onSubredditFilterChange(nextSub)}
+        id="subredditFilter"
+      />
       &nbsp;
-      {subredditFilter ? (
-        <button
-          className="badge-button clear-subreddit"
-          onClick={() => onSubredditFilterChange('')}
-        >
-          sub: {subredditFilter} (
-          <FontAwesomeIcon icon={faTimes} />)
-        </button>
-      ) : null}
-    </>
+      <RadioGroup
+        options={['Both', 'Posts', 'Comments']}
+        value={postsOrComments}
+        onChange={next => onPostsOrCommentsChange(next)}
+        name="postsorcomments"
+      />
+    </aside>
   );
 };
 

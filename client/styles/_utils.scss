@@ -1,0 +1,27 @@
+@mixin utilClasses($prefix, $prop, $valsMap) {
+  @each $valMap in $valsMap {
+    $valSuffix: nth($valMap, 1);
+    $val: nth($valMap, 2);
+
+    .#{$prefix}-#{$valSuffix} {
+      #{$prop}: $val;
+    }
+    .#{$prefix}t-#{$valSuffix} {
+      #{$prop}-top: $val;
+    }
+    .#{$prefix}b-#{$valSuffix} {
+      #{$prop}-bottom: $val;
+    }
+    .#{$prefix}l-#{$valSuffix} {
+      #{$prop}-left: $val;
+    }
+    .#{$prefix}r-#{$valSuffix} {
+      #{$prop}-right: $val;
+    }
+  }
+}
+
+$valsMap: ((0, 0), ('half', 0.5em), (1, 1em), (2, 2em));
+
+@include utilClasses(m, margin, $valsMap);
+@include utilClasses(p, padding, $valsMap);

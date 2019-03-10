@@ -1,0 +1,39 @@
+.settings {
+  @extend .p-1;
+  @extend .box-shadow;
+  position: fixed;
+  z-index: 999;
+  height: 100vh;
+  min-width: 300px;
+  top: 0;
+  left: 100%;
+  background-color: $white;
+  color: $bluegrey900;
+  transition: transform 0.2s ease-in-out;
+
+  &.settings-open {
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  header {
+    display: flex;
+
+    h2 {
+      flex-grow: 1;
+    }
+  }
+
+  select,
+  input[type='text'] {
+    background-color: #e8eaf6;
+  }
+
+  section {
+    @extend .pt-1, .pb-1;
+
+    > label {
+      display: block;
+    }
+  }
+}

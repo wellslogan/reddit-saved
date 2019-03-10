@@ -1,0 +1,50 @@
+.filter-container {
+  @extend .mt-2, .mb-1;
+
+  display: flex;
+  flex-flow: row wrap;
+
+  @include breakpoint(xs) {
+    margin-top: 1em;
+  }
+
+  .filter {
+    width: 100%;
+
+    @include breakpoint(sm) {
+      width: unset;
+
+      & + .filter {
+        margin-left: 1em;
+      }
+    }
+
+    &.filter-radio {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+      .radio-option {
+        @extend .p-half;
+        span {
+          @extend .p-half;
+          border-bottom: 3px solid transparent;
+          cursor: pointer;
+          color: $bluegrey700;
+
+          &:hover {
+            border-color: $bluegrey700;
+          }
+        }
+
+        input[type='radio'] {
+          display: none;
+
+          &:checked ~ span {
+            color: $black;
+            border-color: $black;
+          }
+        }
+      }
+    }
+  }
+}

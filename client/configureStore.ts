@@ -2,11 +2,13 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { persistStore, persistReducer } from 'redux-persist';
+import storageLocal from 'redux-persist/lib/storage';
 import storageSession from 'redux-persist/lib/storage/session';
 
 import { settingsReducer } from './components/settings/settings.reducer';
 import { savedListingReducer } from '@components/savedListing/savedListing.reducer';
 import { loginReducer } from '@components/login/login.reducer';
+import { RESET_STATE_ACTION } from './constants';
 
 const finalCreateStore = composeWithDevTools(applyMiddleware(thunk))(
   createStore
@@ -15,18 +17,31 @@ const finalCreateStore = composeWithDevTools(applyMiddleware(thunk))(
 const persistConfig = {
   key: 'root',
   storage: storageSession,
+  blacklist: ['settings'],
 };
 
-const combinedReducers = combineReducers({
-  settings: settingsReducer,
+const settingsPersistConfig = {
+  key: 'settings',
+  storage: storageLocal,
+};
+
+const combinedReducer = combineReducers({
+  settings: persistReducer(settingsPersistConfig, settingsReducer),
   savedListing: savedListingReducer,
   login: loginReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, combinedReducers);
+const rootReducer = (state, action) => {
+  if (action.type === RESET_STATE_ACTION) {
+    state = undefined;
+  }
+  return combinedReducer(state, action);
+};
+
+const persistedRootReducer = persistReducer(persistConfig, rootReducer);
 
 export const createAndPersistStore = () => {
-  const store = finalCreateStore(persistedReducer);
+  const store = finalCreateStore(persistedRootReducer);
   const persistor = persistStore(store);
   return { store, persistor };
 };

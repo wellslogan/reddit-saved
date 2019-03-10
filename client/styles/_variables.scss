@@ -1,5 +1,6 @@
 $white: #fff;
-$black: #000;
+// $black: #000;
+$black: #263238;
 
 $darkmode_bg: #202020;
 $darkmode_text: white;
@@ -9,11 +10,26 @@ $lightmode_bg: white;
 $lightmode_text: black;
 $lightmode_altbg: white;
 
-$darkblue: #406595;
+// $darkblue: #406595;
+$darkblue: #1e3799;
 $lightblue: #d2e2f6;
 
 $lightgray: #ccc;
 $gray: #787878;
 
-$greensea: #16a085;
-$turquoise: #1abc9c;
+$indigo50: #e8eaf6;
+$indigo100: #c5cae9;
+$indigo200: #9fa8da;
+$indigo300: #7986cb;
+$indigo400: #5c6bc0;
+$indigo500: #3f51b5;
+$indigo600: #3949ab;
+$indigo800: #283593;
+
+$deeppurple300: #9575cd;
+$deeppurple500: #673ab7;
+
+$bluegrey100: #cfd8dc;
+$bluegrey300: #90a4ae;
+$bluegrey700: #455a64;
+$bluegrey900: #263238;

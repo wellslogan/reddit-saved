@@ -1,52 +1,37 @@
-input[type=text] {
+.shared-input-select {
+  @extend .box-shadow;
+  appearance: none;
+  outline: none;
+  padding: 0.8em 1em;
+  font-size: 12pt;
+  border-radius: 0.5em;
+  cursor: pointer;
+  width: 100%;
+}
 
-  transition: background-color 0.2s ease-in-out;
+input[type='text'] {
+  @extend .shared-input-select;
+  border: 1px solid transparent;
 
   &:focus {
-    background-color: $white;
+    border-color: $deeppurple500;
   }
 }
 
-input[type=text],
 select {
-  appearance: none;
-  background-color: $lightgray;
-  border: 1px solid $lightgray;
-  border-radius: 0.5em;
-  font-size: 1.2em;
-  padding: 8px 10px;
-  outline: none;
+  @extend .shared-input-select;
+  padding-right: calc(1em + 30px);
+  border: 1px solid transparent;
 }
 
-.input-with-button {
+.select-container {
   position: relative;
 
-  >button.link-button {
+  > svg {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 15px;
     transform: translateY(-50%);
-  }
-
-  >input[type=text] {
-    margin-left: 0;
-    padding-right: 30px;
-  }
-}
-
-.night {
-
-  input[type=text] {
-    background-color: $darkmode_bg;
-    color: $white;
-
-    &:focus {
-      background-color: $darkmode_bg;
-    }
-  }
-
-  select {
-    background-color: $darkmode_bg;
-    color: $gray;
+    pointer-events: none;
   }
 }

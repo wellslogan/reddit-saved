@@ -58,14 +58,17 @@ export const fetchSavedListingAsync = () => async (
 ) => {
   dispatch(setSavedListingLoading(true));
 
-  const token = retrieveRedditToken();
+  const { redditToken } = getState().login;
 
-  if (!token) window.location = '/' as any;
+  if (!redditToken) {
+    window.location = '/' as any;
+    return;
+  }
 
   const {
     data: profile,
     headers: identityResponseHeaders,
-  } = await fetchIdentity(token);
+  } = await fetchIdentity(redditToken);
 
   // add profile data to the login store
   dispatch(addUsername(profile.name));
@@ -76,7 +79,7 @@ export const fetchSavedListingAsync = () => async (
   let after;
   while (after !== null) {
     const { data: listing, headers: responseHeaders } = await fetchSaved(
-      token,
+      redditToken,
       profile.name,
       after
     );
