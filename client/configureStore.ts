@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -6,8 +6,8 @@ import storageLocal from 'redux-persist/lib/storage';
 import * as localforage from 'localforage';
 
 import { settingsReducer } from './components/settings/settings.reducer';
-import { savedListingReducer } from '@components/savedListing/savedListing.reducer';
-import { loginReducer } from '@components/login/login.reducer';
+import { savedListingReducer } from '@views/listing/savedListing.reducer';
+import { loginReducer } from '@views/login/login.reducer';
 import { RESET_STATE_ACTION } from './constants';
 
 const finalCreateStore = composeWithDevTools(applyMiddleware(thunk))(

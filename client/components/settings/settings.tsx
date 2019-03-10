@@ -17,8 +17,8 @@ import { RedditApp } from '@models';
 import {
   clearSubmissions,
   mergeInSubmissions,
-} from '@components/savedListing/savedListing.actions';
-import { clearUsername } from '@components/login/login.actions';
+} from '@views/listing/savedListing.actions';
+import { clearUsername } from '@views/login/login.actions';
 import { ToggleSwitch } from './components/toggleSwitch';
 import { generateJsonBackup } from '@utils/createAndParseDiffData';
 import { ImportBackup } from './components/importBackup';

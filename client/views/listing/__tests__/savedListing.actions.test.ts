@@ -16,7 +16,7 @@ import {
   MockSubmissions,
   MockIdentity,
 } from '@app/MockData';
-import { LoginActionTypes } from '@components/login/login.actions';
+import { LoginActionTypes } from '@views/login/login.actions';
 import { NO_SAVED_POSTS } from '@app/constants';
 
 const mockStore = configureStore([thunk]);

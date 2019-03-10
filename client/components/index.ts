@@ -1,9 +1,6 @@
 export { CommentComponent } from './comment/comment';
 export { PostComponent } from './post/post';
 export { default as RedditLink } from './redditLink/redditLink';
-export { AboutComponent } from './about/about';
-export { default as Login } from './login/login';
-export { default as SavedListing } from './savedListing/savedListing';
 export { default as Settings } from './settings/settings';
 export { RadioGroup } from './radioGroup/radioGroup';
 export { Header } from './header/header';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const AboutComponent: React.StatelessComponent<{}> = _ => (
+export const AboutComponent: React.FunctionComponent<{}> = _ => (
   <div className="container">
     <h2>About Saved Browser</h2>
     <p>

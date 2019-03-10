@@ -4,17 +4,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { createAndPersistStore } from './configureStore';
-import {
-  Login,
-  Settings,
-  SavedListing,
-  AboutComponent,
-  Header,
-  TTT,
-} from '@components';
-import { mergeArrayOrder } from '@utils/createAndParseDiffData';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
+import { Header, TTT } from '@components';
+import { Login, AboutComponent, SavedListing } from '@views';
 
 const { store, persistor } = createAndPersistStore();
 

@@ -14,8 +14,8 @@ import {
   PostsOrComments,
   AppState,
 } from '@models';
-import { PostComponent as Post } from '../post/post';
-import { CommentComponent as Comment } from '../comment/comment';
+import { PostComponent as Post } from '../../components/post/post';
+import { CommentComponent as Comment } from '../../components/comment/comment';
 import { ifCommentOrPostDo } from '@utils/helpers';
 import { fetchSavedListingAsync } from './savedListing.actions';
 import { LoadingGate } from './components/loadingGate';

@@ -6,7 +6,7 @@ import {
   fetchSaved,
   checkRateLimitAndWait,
 } from '@utils/reddit.service';
-import { addUsername } from '@components/login/login.actions';
+import { addUsername } from '@views/login/login.actions';
 import { NormalizedRedditSubmissions } from '@utils/normalization';
 import { waitSeconds } from '@utils/helpers';
 
