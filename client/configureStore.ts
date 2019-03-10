@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { persistStore, persistReducer } from 'redux-persist';
 import storageLocal from 'redux-persist/lib/storage';
-import storageSession from 'redux-persist/lib/storage/session';
+import * as localforage from 'localforage';
 
 import { settingsReducer } from './components/settings/settings.reducer';
 import { savedListingReducer } from '@components/savedListing/savedListing.reducer';
@@ -16,7 +16,7 @@ const finalCreateStore = composeWithDevTools(applyMiddleware(thunk))(
 
 const persistConfig = {
   key: 'root',
-  storage: storageSession,
+  storage: localforage,
   blacklist: ['settings'],
 };
 

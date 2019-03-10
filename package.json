@@ -22,6 +22,7 @@
     "express-history-api-fallback": "^2.2.1",
     "express-session": "^1.15.6",
     "file-saver": "^2.0.0",
+    "localforage": "^1.7.3",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "nanoid": "^2.0.0",
