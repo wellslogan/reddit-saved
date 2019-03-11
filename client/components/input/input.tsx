@@ -5,32 +5,27 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 type Props = {
   value: string;
   onChange: (nextValue: string) => void;
-  label: string;
-  width?: string;
-  id?: string;
-  placeholder?: string;
   onClear?: () => void;
+  inputProps?: React.HTMLAttributes<HTMLInputElement>;
 };
 
-export const TextInput: React.StatelessComponent<Props> = props => {
-  const { value, label, onChange, onClear, id, width, placeholder } = props;
+export const TextInput: React.FunctionComponent<Props> = props => {
+  const { value, onChange, onClear, inputProps } = props;
 
   return (
-    <div className="filter" style={{ width }}>
+    <div className="text-input-container">
       <input
         type="text"
-        id={id}
         className="input-container__input"
         value={value}
         onChange={e => onChange(e.target.value)}
-        placeholder={placeholder}
+        {...inputProps}
       />
-
-      {/* {onClear ? (
-        <button className={buttonClass} onClick={() => onClear()}>
+      {onClear && value ? (
+        <button className="clear-button" onClick={() => onClear()}>
           <FontAwesomeIcon icon={faTimes} size="lg" />
         </button>
-      ) : null} */}
+      ) : null}
     </div>
   );
 };

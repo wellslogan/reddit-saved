@@ -14,8 +14,6 @@ import {
   PostsOrComments,
   AppState,
 } from '@models';
-import { PostComponent as Post } from '../../components/post/post';
-import { CommentComponent as Comment } from '../../components/comment/comment';
 import { ifCommentOrPostDo } from '@utils/helpers';
 import { fetchSavedListingAsync } from './savedListing.actions';
 import { LoadingGate } from './components/loadingGate';
@@ -215,28 +213,6 @@ class SavedListing extends React.Component<
                               redditApp={this.props.redditApp}
                               style={style}
                             />
-                            {/* {ifCommentOrPostDo(
-                              this.props.submissionsById[
-                                this.state.visibleSubmissions[index]
-                              ],
-                              comment => (
-                                <Comment
-                                  comment={comment}
-                                  key={key}
-                                  redditApp={this.props.redditApp}
-                                  style={style}
-                                />
-                              ),
-                              post => (
-                                <Post
-                                  post={post}
-                                  key={key}
-                                  redditApp={this.props.redditApp}
-                                  style={style}
-                                  onSelfTextToggle={() => this.resetCache()}
-                                />
-                              )
-                            )} */}
                           </CellMeasurer>
                         );
                       }}

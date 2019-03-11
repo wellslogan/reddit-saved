@@ -9,6 +9,13 @@
   width: 100%;
 }
 
+.shared-input-select-icon-addon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
 input[type='text'] {
   @extend .shared-input-select;
   border: 1px solid transparent;
@@ -24,14 +31,38 @@ select {
   border: 1px solid transparent;
 }
 
+.text-input-container {
+  position: relative;
+
+  input[type='text'] {
+    padding-right: calc(1em + 30px);
+  }
+
+  > button {
+    @extend .shared-input-select-icon-addon;
+  }
+}
+
 .select-container {
   position: relative;
 
+  > button {
+    display: none;
+  }
+
   > svg {
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
+    @extend .shared-input-select-icon-addon;
     pointer-events: none;
+  }
+
+  &.select-container-selected {
+    > svg {
+      display: none;
+    }
+
+    > button {
+      @extend .shared-input-select-icon-addon;
+      display: block;
+    }
   }
 }

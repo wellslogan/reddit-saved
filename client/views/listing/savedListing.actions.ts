@@ -1,14 +1,8 @@
-import { RedditPost, RedditComment, AppState, RedditSubmission } from '@models';
-import { retrieveRedditToken } from '@utils/sessionStorage.service';
+import { AppState, RedditSubmission } from '@models';
 import { NO_SAVED_POSTS } from '@app/constants';
-import {
-  fetchIdentity,
-  fetchSaved,
-  checkRateLimitAndWait,
-} from '@utils/reddit.service';
+import { RedditApiService } from '@utils/reddit.service';
 import { addUsername } from '@views/login/login.actions';
 import { NormalizedRedditSubmissions } from '@utils/normalization';
-import { waitSeconds } from '@utils/helpers';
 
 export const SavedListingActions = {
   SET_SAVED_LISTING_LOADING: 'SAVEDLISTING:SET_SAVED_LISTING_LOADING',
@@ -65,28 +59,18 @@ export const fetchSavedListingAsync = () => async (
     return;
   }
 
-  const {
-    data: profile,
-    headers: identityResponseHeaders,
-  } = await fetchIdentity(redditToken);
+  const api = new RedditApiService(redditToken);
+
+  const { data: profile } = await api.fetchIdentity();
 
   // add profile data to the login store
   dispatch(addUsername(profile.name));
 
-  // if we're rate limited, wait it out
-  await checkRateLimitAndWait(identityResponseHeaders);
-
   let after;
   while (after !== null) {
-    const { data: listing, headers: responseHeaders } = await fetchSaved(
-      redditToken,
-      profile.name,
-      after
-    );
+    const { data: listing } = await api.fetchSaved(profile.name, after);
     dispatch(addSubmissions(listing.data.children));
     after = listing.data.after;
-
-    await checkRateLimitAndWait(responseHeaders);
 
     if (listing.data.dist === 0) {
       dispatch(addSavedListingError(NO_SAVED_POSTS));

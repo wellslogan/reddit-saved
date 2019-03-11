@@ -1,12 +1,7 @@
 import * as React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
-import { FilterInput } from './filterInput';
 import { TextInput } from '@components/input/input';
-import { Select } from '@components/select/select';
 import { RadioGroup } from '@components/radioGroup/radioGroup';
 import { SelectFilter } from './selectFilter';
-import { InputFilter } from './inputFilter';
 
 type ListingFiltersProps = {
   allSubreddits: string[];
@@ -18,23 +13,31 @@ type ListingFiltersProps = {
   onPostsOrCommentsChange: (postsOrComments: string) => void;
 };
 
-export const ListingFilters: React.StatelessComponent<ListingFiltersProps> = ({
-  allSubreddits,
-  queryFilter,
-  subredditFilter,
-  postsOrComments,
-  onQueryFilterChange,
-  onSubredditFilterChange,
-  onPostsOrCommentsChange,
-}) => {
+export const ListingFilters: React.FunctionComponent<
+  ListingFiltersProps
+> = props => {
+  const {
+    allSubreddits,
+    queryFilter,
+    subredditFilter,
+    postsOrComments,
+    onQueryFilterChange,
+    onSubredditFilterChange,
+    onPostsOrCommentsChange,
+  } = props;
+
   return (
     <aside className="filter-container">
-      <InputFilter
-        value={queryFilter}
-        onChange={query => onQueryFilterChange(query)}
-        placeholder="filter by content"
-      />
-      &nbsp;
+      <div className="filter">
+        <TextInput
+          value={queryFilter}
+          onChange={onQueryFilterChange}
+          onClear={() => onQueryFilterChange('')}
+          inputProps={{
+            placeholder: 'filter by content',
+          }}
+        />
+      </div>
       <SelectFilter
         selectedValue={subredditFilter}
         defaultOption="filter by subreddit"
@@ -42,7 +45,6 @@ export const ListingFilters: React.StatelessComponent<ListingFiltersProps> = ({
         onChange={nextSub => onSubredditFilterChange(nextSub)}
         id="subredditFilter"
       />
-      &nbsp;
       <RadioGroup
         options={['Both', 'Posts', 'Comments']}
         value={postsOrComments}

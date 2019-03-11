@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown';
+import { cssClasses } from '@utils/conditionalClassList';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 
 type Props = {
   defaultOption?: string;
@@ -21,7 +23,14 @@ export const SelectFilter: React.StatelessComponent<Props> = props => {
 
   return (
     <div className="filter">
-      <div className="select-container">
+      <div
+        className={cssClasses('select-container', {
+          'select-container-selected': selectedValue,
+        })}
+      >
+        <button className="clear-button" onClick={() => onChange('')}>
+          <FontAwesomeIcon icon={faTimes} size="lg" />
+        </button>
         <FontAwesomeIcon icon={faChevronDown} />
         <select
           value={selectedValue}
