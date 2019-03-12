@@ -67,9 +67,10 @@ export const ifCommentOrPostDo = (
 export const fixRelativeLinks = (
   htmlString: string,
   app: RedditApp = RedditApp.None
-): string => {
-  return htmlString.replace(/\<a href="\//gm, `<a href="${appMapping[app]}/`);
-};
+): string =>
+  htmlString
+    .replace(/\<a href="\//gm, `<a href="${appMapping[app]}/`)
+    .replace(/\<a href="/gm, '<a target="_blank" href="');
 
 /**
  * Waits for a set amount of time (to throttle Reddit API calls when the limit is reached)
@@ -98,3 +99,27 @@ export const updateGlobalCSSSetting = (
     document.body.classList.remove(cssClass);
   }
 };
+
+/**
+ * A hacky attempt to replicate the safe navigation operator's
+ * functionality, using thunks.
+ * E.g.
+ ```
+ const o = { data: []};
+ safeNav(() => o.data[0]) === undefined
+ ```
+ * @param thunk the thunk to execute
+ * @param defaultResult the default result to return
+ * @returns the result of the thunk, or the provided default or undefined
+ *  if an error was thrown
+ */
+export function safeNav<T>(
+  thunk: () => T,
+  defaultResult: T | undefined = undefined
+): T | undefined {
+  try {
+    return thunk();
+  } catch {
+    return defaultResult;
+  }
+}

@@ -17,6 +17,6 @@ export const Submission: React.StatelessComponent<Props> = props => {
   return ifCommentOrPostDo(
     submission,
     comment => <Comment comment={comment} {...restProps} />,
-    post => <Post post={post} {...restProps} onSelfTextToggle={() => {}} />
+    post => <Post post={post} {...restProps} />
   );
 };

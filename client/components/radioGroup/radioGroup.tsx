@@ -7,7 +7,7 @@ type Props = {
   onChange: (nextValue: string) => void;
 };
 
-export const RadioGroup: React.StatelessComponent<Props> = props => {
+export const RadioGroup: React.FunctionComponent<Props> = props => {
   const { options, name, value, onChange } = props;
   return (
     <div className="filter filter-radio">

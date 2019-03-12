@@ -12,7 +12,7 @@ type Props = {
   id?: string;
 };
 
-export const SelectFilter: React.StatelessComponent<Props> = props => {
+export const SelectFilter: React.FunctionComponent<Props> = props => {
   const {
     defaultOption,
     options,

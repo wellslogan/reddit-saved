@@ -16,7 +16,7 @@ type StateProps = {
   dispatch: Dispatch<AnyAction>;
 };
 
-const RedditLink: React.StatelessComponent<OwnProps & StateProps> = ({
+const RedditLink: React.FunctionComponent<OwnProps & StateProps> = ({
   url,
   user,
   subreddit,
