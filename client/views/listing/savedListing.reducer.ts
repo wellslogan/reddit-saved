@@ -1,6 +1,5 @@
-import { RedditPost, RedditComment, RedditSubmission } from '@models';
+import { RedditSubmission } from '@models';
 import { SavedListingActions } from './savedListing.actions';
-import { ifCommentOrPostDo } from '@utils/helpers';
 import { normalizeRedditSubmissions } from '@utils/normalization';
 import { mergeJsonBackup } from '@utils/createAndParseDiffData';
 

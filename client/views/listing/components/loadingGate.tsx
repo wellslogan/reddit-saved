@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export const LoadingGate: React.StatelessComponent<{}> = _ => (
+export const LoadingGate: React.FunctionComponent = () => (
   <div className="loading-gate">
     <div className="sk-fading-circle">
       <div className="sk-circle1 sk-circle" />

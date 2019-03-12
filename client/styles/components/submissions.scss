@@ -1,0 +1,49 @@
+.submission {
+  @extend .p-1;
+  @extend .box-shadow;
+  @extend .mt-1, .mb-1;
+  background-color: $white;
+  border: 1px solid $bluegrey300;
+  border-left-width: 5px;
+  display: grid;
+  grid-template-columns: auto 80px;
+  color: $bluegrey900;
+
+  @include breakpoint(xs) {
+    margin: 0.5em 0;
+  }
+
+  &.submission-restored {
+    border-color: $indigo600;
+  }
+
+  header {
+    h1,
+    h3 {
+      @extend .mt-half, .mb-half;
+      font-weight: normal;
+    }
+
+    h3 {
+      font-size: 0.8em;
+      color: $bluegrey700;
+    }
+  }
+
+  aside {
+    align-self: center;
+    justify-self: center;
+    > a {
+      box-shadow: none;
+      color: $bluegrey300;
+      &:hover {
+        background-color: unset;
+        color: $bluegrey900;
+      }
+    }
+  }
+
+  main {
+    grid-column: 1 / span 2;
+  }
+}

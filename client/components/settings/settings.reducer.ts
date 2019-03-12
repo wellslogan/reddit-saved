@@ -3,11 +3,13 @@ import { RedditApp } from '@models';
 
 export type SettingsState = {
   nightMode: boolean;
+  tttEnabled: boolean;
   redditApp?: RedditApp;
 };
 
 export const initialSettingsState = {
   nightMode: false,
+  tttEnabled: true,
 };
 
 export const settingsReducer = (
@@ -26,6 +28,10 @@ export const settingsReducer = (
     [SettingsActionTypes.SET_FIXED_WIDTH]: () => ({
       ...state,
       fixedWidth: action.fixedWidth,
+    }),
+    [SettingsActionTypes.SET_TTT_ENABLED]: () => ({
+      ...state,
+      tttEnabled: action.tttEnabled,
     }),
   };
 

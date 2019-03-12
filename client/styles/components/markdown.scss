@@ -5,6 +5,11 @@
 
   blockquote {
     font-style: italic;
+    color: $bluegrey700;
+
+    @include breakpoint(xs) {
+      margin: 0 1em;
+    }
   }
 
   * {

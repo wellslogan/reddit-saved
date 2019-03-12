@@ -1,32 +1,61 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { redditLink } from '@utils/helpers';
-import { RedditApp } from '@models';
+import { RedditApp, AppState } from '@models';
+import { Dispatch, AnyAction } from 'redux';
 
-type RedditLinkProps = {
-  url: string;
+type OwnProps = {
+  url?: string;
+  user?: string;
+  subreddit?: string;
   children: React.ReactChild;
-  app?: RedditApp;
+} & React.HTMLAttributes<HTMLAnchorElement>;
+
+type StateProps = {
+  redditApp: RedditApp;
+  dispatch: Dispatch<AnyAction>;
 };
 
-export const RedditLink: React.StatelessComponent<RedditLinkProps> = ({
+const RedditLink: React.FunctionComponent<OwnProps & StateProps> = ({
   url,
+  user,
+  subreddit,
   children,
-  app = RedditApp.None,
+  redditApp = RedditApp.None,
+  dispatch,
+  ...baseAnchorProps
 }) => {
   // three potential types of links:
   // - https://www.reddit.com/u/some-user
   // - /u/some-user
   // - https://www.google.com/
   // first two should go to redditLink(), otherwise use the regular url
-  const href =
-    url.startsWith('https://www.reddit.com') || url.startsWith('/')
-      ? redditLink(url, app)
-      : url;
+
+  if ((url && user) || (url && subreddit) || (user && subreddit)) {
+    console.warn(
+      'RedditLink: Only 1 of "url", "user", or "subreddit" should be provided.'
+    );
+  }
+
+  let href;
+
+  if (user) href = redditLink(`/u/${user}`, redditApp);
+  else if (subreddit) href = redditLink(`/r/${subreddit}`, redditApp);
+  else if (url.startsWith('https://www.reddit.com') || url.startsWith('/'))
+    href = redditLink(url, redditApp);
+  else href = url;
+
   return (
-    <a href={href} target="_blank">
+    <a href={href} target="_blank" {...baseAnchorProps}>
       {children}
     </a>
   );
 };
 
 RedditLink.displayName = 'RedditLink';
+
+const mapStateToProps = (state: AppState) => ({
+  redditApp: state.settings.redditApp,
+});
+
+export default connect(mapStateToProps)(RedditLink);

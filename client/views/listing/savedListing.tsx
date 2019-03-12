@@ -8,16 +8,17 @@ import {
   CellMeasurer,
 } from './components/reactVirtualizedComponents';
 
-import { RedditApp, RedditSubmission } from '@models';
-import { PostComponent as Post } from '../post/post';
-import { CommentComponent as Comment } from '../comment/comment';
-import { AppState } from '@models/AppState';
+import {
+  RedditApp,
+  RedditSubmission,
+  PostsOrComments,
+  AppState,
+} from '@models';
 import { ifCommentOrPostDo } from '@utils/helpers';
 import { fetchSavedListingAsync } from './savedListing.actions';
 import { LoadingGate } from './components/loadingGate';
-import { SubredditsListing } from './components/subredditsListing';
 import { ListingFilters } from './components/listingFilters';
-import { WarningModal } from './components/warningModal';
+import { Submission } from './components/submission';
 
 type SavedListingProps = {
   redditApp: RedditApp;
@@ -34,6 +35,7 @@ type SavedListingState = {
   searchQuery: string;
   visibleSubmissions: string[];
   subredditFilter?: string;
+  postsOrComments: PostsOrComments;
 };
 
 class SavedListing extends React.Component<
@@ -45,6 +47,7 @@ class SavedListing extends React.Component<
     this.state = {
       searchQuery: '',
       visibleSubmissions: props.submissionsAllIds || [],
+      postsOrComments: 'Both',
     };
   }
 
@@ -72,7 +75,11 @@ class SavedListing extends React.Component<
     nextProps: SavedListingProps,
     prevState: SavedListingState
   ): Partial<SavedListingState> {
-    if (!prevState.searchQuery && !prevState.subredditFilter) {
+    if (
+      !prevState.searchQuery &&
+      !prevState.subredditFilter &&
+      prevState.postsOrComments === 'Both'
+    ) {
       // adding submissions via redux
       if (
         !nextProps.submissionsAllIds.every(id =>
@@ -82,6 +89,7 @@ class SavedListing extends React.Component<
         return { visibleSubmissions: nextProps.submissionsAllIds };
       }
     }
+    return null;
   }
 
   /**
@@ -106,7 +114,8 @@ class SavedListing extends React.Component<
         searchQuery,
         prevState.subredditFilter,
         this.props.submissionsAllIds,
-        this.props.submissionsById
+        this.props.submissionsById,
+        prevState.postsOrComments
       ),
       searchQuery,
     }));
@@ -124,9 +133,25 @@ class SavedListing extends React.Component<
         prevState.searchQuery,
         subredditFilter,
         this.props.submissionsAllIds,
-        this.props.submissionsById
+        this.props.submissionsById,
+        prevState.postsOrComments
       ),
       subredditFilter,
+    }));
+  };
+
+  handlePostsOrCommentsChange = (postsOrComments: PostsOrComments) => {
+    this.resetCache();
+
+    this.setState(prevState => ({
+      visibleSubmissions: SavedListing.filterVisibleSubmissions(
+        prevState.searchQuery,
+        prevState.subredditFilter,
+        this.props.submissionsAllIds,
+        this.props.submissionsById,
+        postsOrComments
+      ),
+      postsOrComments,
     }));
   };
 
@@ -139,24 +164,16 @@ class SavedListing extends React.Component<
       <>
         {loading ? <LoadingGate /> : null}
         <main className="listing">
-          {/* <aside className="listing__subreddits-list">
-            <SubredditsListing
-              subreddits={subreddits}
-              onClickSubreddit={sub => this.addSubredditFilter(sub)}
+          <div className="container">
+            <ListingFilters
+              allSubreddits={subreddits}
+              queryFilter={this.state.searchQuery}
+              subredditFilter={this.state.subredditFilter}
+              postsOrComments={this.state.postsOrComments}
+              onQueryFilterChange={this.addQueryFilter}
+              onSubredditFilterChange={this.addSubredditFilter}
+              onPostsOrCommentsChange={this.handlePostsOrCommentsChange}
             />
-          </aside> */}
-          <section className="listing__submissions">
-            <section className="listing__submissions__filter">
-              <ListingFilters
-                allSubreddits={subreddits}
-                queryFilter={this.state.searchQuery}
-                subredditFilter={this.state.subredditFilter}
-                onQueryFilterChange={newQuery => this.addQueryFilter(newQuery)}
-                onSubredditFilterChange={newSubreddit =>
-                  this.addSubredditFilter(newSubreddit)
-                }
-              />
-            </section>
             <WindowScroller>
               {({ height, isScrolling, onChildScroll, scrollTop }) => (
                 <AutoSizer onResize={() => this.resetCache()}>
@@ -186,28 +203,16 @@ class SavedListing extends React.Component<
                             rowIndex={index}
                             parent={parent}
                           >
-                            {ifCommentOrPostDo(
-                              this.props.submissionsById[
-                                this.state.visibleSubmissions[index]
-                              ],
-                              comment => (
-                                <Comment
-                                  comment={comment}
-                                  key={key}
-                                  redditApp={this.props.redditApp}
-                                  style={style}
-                                />
-                              ),
-                              post => (
-                                <Post
-                                  post={post}
-                                  key={key}
-                                  redditApp={this.props.redditApp}
-                                  style={style}
-                                  onSelfTextToggle={() => this.resetCache()}
-                                />
-                              )
-                            )}
+                            <Submission
+                              submission={
+                                this.props.submissionsById[
+                                  this.state.visibleSubmissions[index]
+                                ]
+                              }
+                              postsOrComments={this.state.postsOrComments}
+                              redditApp={this.props.redditApp}
+                              style={style}
+                            />
                           </CellMeasurer>
                         );
                       }}
@@ -218,7 +223,7 @@ class SavedListing extends React.Component<
                 </AutoSizer>
               )}
             </WindowScroller>
-          </section>
+          </div>
         </main>
       </>
     );
@@ -235,12 +240,20 @@ class SavedListing extends React.Component<
     query: string,
     subreddit: string,
     allSubmissionIds: string[],
-    submissionsById: { [id: string]: RedditSubmission }
+    submissionsById: { [id: string]: RedditSubmission },
+    postsOrComments: PostsOrComments
   ): string[] {
-    if (!query && !subreddit) return allSubmissionIds;
+    if (!query && !subreddit && postsOrComments === 'Both')
+      return allSubmissionIds;
 
-    return allSubmissionIds.filter(submissionId => {
+    const res = allSubmissionIds.filter(submissionId => {
       const submission = submissionsById[submissionId];
+      const submissionType = submission.kind === 't1' ? 'Comments' : 'Posts';
+
+      // postsOrComments mismatch
+      if (postsOrComments !== 'Both' && submissionType !== postsOrComments) {
+        return false;
+      }
 
       // subreddit mismatch
       if (subreddit && submission.data.subreddit !== subreddit) return false;
@@ -271,6 +284,7 @@ class SavedListing extends React.Component<
         }
       );
     });
+    return res;
   }
 }
 

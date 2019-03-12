@@ -8,6 +8,8 @@
       "@utils/*": ["client/utils/*"],
       "@components": ["client/components"],
       "@components/*": ["client/components/*"],
+      "@views": ["client/views"],
+      "@views/*": ["client/views/*"],
       "@app/*": ["client/*"]
     },
     "sourceMap": true,

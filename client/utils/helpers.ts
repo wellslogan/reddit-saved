@@ -67,9 +67,10 @@ export const ifCommentOrPostDo = (
 export const fixRelativeLinks = (
   htmlString: string,
   app: RedditApp = RedditApp.None
-): string => {
-  return htmlString.replace(/\<a href="\//gm, `<a href="${appMapping[app]}/`);
-};
+): string =>
+  htmlString
+    .replace(/\<a href="\//gm, `<a href="${appMapping[app]}/`)
+    .replace(/\<a href="/gm, '<a target="_blank" href="');
 
 /**
  * Waits for a set amount of time (to throttle Reddit API calls when the limit is reached)
@@ -78,3 +79,47 @@ export const fixRelativeLinks = (
  */
 export const waitSeconds = (seconds: number): Promise<{}> =>
   new Promise(resolve => setTimeout(resolve, seconds * 1000));
+
+/**
+ * Adds or removes a css class on the <body> based on
+ * some condition, such that if the condition evals to
+ * TRUE, the cssClass WILL be on the <body>, and vice-versa.
+ * @param condition the condition to evaluate
+ * @param cssClass the css class to add or remove from the <body>
+ */
+export const updateGlobalCSSSetting = (
+  condition: boolean,
+  cssClass: string
+) => {
+  const isClassOnBody = document.body.classList.contains(cssClass);
+
+  if (condition && !isClassOnBody) {
+    document.body.classList.add(cssClass);
+  } else if (!condition && isClassOnBody) {
+    document.body.classList.remove(cssClass);
+  }
+};
+
+/**
+ * A hacky attempt to replicate the safe navigation operator's
+ * functionality, using thunks.
+ * E.g.
+ ```
+ const o = { data: []};
+ safeNav(() => o.data[0]) === undefined
+ ```
+ * @param thunk the thunk to execute
+ * @param defaultResult the default result to return
+ * @returns the result of the thunk, or the provided default or undefined
+ *  if an error was thrown
+ */
+export function safeNav<T>(
+  thunk: () => T,
+  defaultResult: T | undefined = undefined
+): T | undefined {
+  try {
+    return thunk();
+  } catch {
+    return defaultResult;
+  }
+}
