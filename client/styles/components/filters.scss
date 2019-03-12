@@ -10,9 +10,11 @@
 
   .filter {
     width: 100%;
+    @extend .mt-half;
 
     @include breakpoint(sm) {
       width: unset;
+      margin-top: unset;
 
       & + .filter {
         margin-left: 1em;
