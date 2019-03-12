@@ -24,7 +24,7 @@ const LoginComponent: React.FunctionComponent<
   const handleMount = () => {
     const { success, token } = parse(props.location.search);
     if (success === 'true' && token) {
-      setRedditToken(token);
+      setRedditToken(token as string);
       props.history.push('/listing');
     }
   };
