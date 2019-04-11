@@ -1,4 +1,4 @@
-.to-the-top {
+.floating-button {
   @extend .box-shadow;
 
   $transition: transform 0.1s ease-in-out;
@@ -8,12 +8,11 @@
   color: $bluegrey700;
   z-index: 998;
   right: 0;
-  top: 2em;
   border-radius: 50%;
   transform: translateX(100%);
   transition: $transition;
 
-  &.to-the-top-visible {
+  &.floating-button-visible {
     left: unset;
     right: 2em;
     transform: none;
@@ -26,8 +25,8 @@
 }
 
 // global setting should hide it
-.disable-to-the-top {
-  .to-the-top {
+.disable-floating-buttons {
+  .floating-button {
     display: none;
   }
 }

@@ -32,33 +32,35 @@ const LoginComponent: React.FunctionComponent<
   React.useEffect(handleMount, [props.location.search]);
 
   return (
-    <div className="container">
-      <>
-        {username || submissionsAllIds.length ? (
-          <p>
-            {username ? (
-              <>
-                Hi, <strong>{username}</strong>! You're already logged in,{' '}
-              </>
-            ) : null}
-            <Link to="/listing">
-              click here to browse the listing{' '}
-              <FontAwesomeIcon icon={faArrowCircleRight} />
-            </Link>
-          </p>
-        ) : (
-          <>
-            <a href="/api/auth/reddit">
-              Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
-            </a>
-            <p>Or, upload a backup file to browse using the settings menu</p>
-          </>
-        )}
-      </>
-      <p>
-        <Link to="/about">About</Link> Saved Browser
-      </p>
-    </div>
+    <main className="main">
+      <div className="container">
+        <>
+          {username || submissionsAllIds.length ? (
+            <p>
+              {username ? (
+                <>
+                  Hi, <strong>{username}</strong>! You're already logged in,{' '}
+                </>
+              ) : null}
+              <Link to="/listing">
+                click here to browse the listing{' '}
+                <FontAwesomeIcon icon={faArrowCircleRight} />
+              </Link>
+            </p>
+          ) : (
+            <>
+              <a href="/api/auth/reddit">
+                Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
+              </a>
+              <p>Or, upload a backup file to browse using the settings menu</p>
+            </>
+          )}
+        </>
+        <p>
+          <Link to="/about">About</Link> Saved Browser
+        </p>
+      </div>
+    </main>
   );
 };
 

@@ -14,7 +14,6 @@ const App = () => (
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <>
-          <TTT />
           <Header />
           <Route path="/" exact component={Login} />
           <Route path="/about" component={AboutComponent} />

@@ -163,7 +163,7 @@ class SavedListing extends React.Component<
     return (
       <>
         {loading ? <LoadingGate /> : null}
-        <main className="listing">
+        <main className="main">
           <div className="container">
             <ListingFilters
               allSubreddits={subreddits}
