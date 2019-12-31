@@ -31,10 +31,10 @@
           @extend .p-half;
           border-bottom: 3px solid transparent;
           cursor: pointer;
-          color: $bluegrey700;
+          color: getColor(text);
 
           &:hover {
-            border-color: $bluegrey700;
+            border-color: getColor(text);
           }
         }
 
@@ -42,8 +42,8 @@
           display: none;
 
           &:checked ~ span {
-            color: $black;
-            border-color: $black;
+            color: getColor(text-lite);
+            border-color: getColor(text-lite);
           }
         }
       }

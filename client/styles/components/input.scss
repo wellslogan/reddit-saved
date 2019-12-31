@@ -7,7 +7,8 @@
   border-radius: 0.5em;
   cursor: pointer;
   width: 100%;
-  background-color: $white;
+  background-color: getColor(whitish);
+  color: getColor(text-lite);
 }
 
 .shared-input-select-icon-addon {
@@ -23,6 +24,10 @@ input[type='text'] {
 
   &:focus {
     border-color: $deeppurple500;
+  }
+
+  &::placeholder {
+    color: getColor(text-lite);
   }
 }
 

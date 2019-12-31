@@ -2,6 +2,7 @@ interface RedditContent<TData> {
   data: TData;
   kind: 'listing' | 't3' | 't1';
   restoredFromFile?: boolean;
+  restoredData?: TData;
 }
 
 interface RedditListingData {

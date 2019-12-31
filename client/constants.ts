@@ -9,3 +9,5 @@ export const NO_SAVED_POSTS =
   'No saved posts! Go save something on Reddit, then come back!';
 
 export const RESET_STATE_ACTION = 'SAVED_BROWSER_ROOT:RESET_STATE';
+
+export const REMOVED_REGEX = /^\[(removed|deleted)\]$/;

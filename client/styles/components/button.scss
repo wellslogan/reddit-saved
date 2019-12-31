@@ -3,7 +3,7 @@ input[type='file'] {
   appearance: none;
   padding: 0.8em 1em;
   background-color: $deeppurple500;
-  color: $white;
+  color: white;
   border: none;
   border-radius: 0.5em;
   font-size: 12pt;
@@ -12,14 +12,14 @@ input[type='file'] {
   transition: background-color 0.1s ease-in-out;
 
   &:hover {
-    background-color: $indigo800;
+    background-color: $deeppurpleA400;
     transition: background-color 0.1s ease-in-out;
   }
 }
 
 .night {
   button.btn {
-    color: $white;
+    color: getColor(whitish);
     background-color: $darkmode_altbg;
   }
 }

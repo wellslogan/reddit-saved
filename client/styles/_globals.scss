@@ -20,7 +20,7 @@ p {
   transition: $transition;
 
   &:hover {
-    background-color: $indigo100;
+    background-color: getColor(link-hover-bg);
     transition: $transition;
   }
 }
@@ -62,7 +62,7 @@ a {
   z-index: 9999;
   width: 100%;
   height: 100vh;
-  background: $white;
+  background: getColor(whitish);
   opacity: 0.75;
 
   // spinner from https://github.com/tobiasahlin/SpinKit
@@ -210,7 +210,7 @@ a {
     background: $black;
 
     .sk-fading-circle .sk-circle:before {
-      background-color: $white;
+      background-color: getColor(whitish);
     }
   }
 }

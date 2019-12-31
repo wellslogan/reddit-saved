@@ -81,6 +81,12 @@ const Settings: React.FunctionComponent<SettingsProps> = props => {
     // reset the redux store
     dispatch({ type: RESET_STATE_ACTION });
     handleClose();
+
+    // set night mode to system default
+    const darkModeQuery = window.matchMedia('prefer-dark-mode: dark');
+    const systemDarkMode = darkModeQuery.media && darkModeQuery.matches;
+    setNightMode(systemDarkMode);
+
     props.history.push('/');
   };
 
@@ -110,6 +116,7 @@ const Settings: React.FunctionComponent<SettingsProps> = props => {
   React.useEffect(() => {
     // some settings require global <body> classes
     updateGlobalCSSSetting(!tttEnabled, 'disable-floating-buttons');
+    updateGlobalCSSSetting(nightMode, 'dark');
 
     document.addEventListener('mousedown', handleClickOutsideToClose);
 
@@ -130,6 +137,16 @@ const Settings: React.FunctionComponent<SettingsProps> = props => {
             <FontAwesomeIcon icon={faTimes} size="2x" />
           </button>
         </header>
+        <section>
+          <label>
+            <ToggleSwitch
+              id="tttToggle"
+              checked={nightMode}
+              onToggle={() => setNightMode(!nightMode)}
+            />
+            <span className="pl-half">Dark mode</span>
+          </label>
+        </section>
         <section>
           <label>
             <ToggleSwitch
@@ -193,8 +210,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Settings)
+  connect(mapStateToProps, mapDispatchToProps)(Settings)
 ) as any;

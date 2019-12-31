@@ -1,5 +1,6 @@
-import { RedditSubmission } from '@models';
+import { RedditSubmission, RedditPost } from '@models';
 import { NormalizedRedditSubmissions } from './normalization';
+import { REMOVED_REGEX } from '@app/constants';
 
 export const generateJsonBackup = (
   submissionsById: { [id: string]: RedditSubmission },
@@ -93,3 +94,18 @@ export const mergeArrayOrder = (fromServer: any[], fromFile: any[]) => {
 };
 
 const reconstruct = (ids, start, end) => ids.slice(start + 1, end + 1);
+
+const restorePost = (
+  fromServer: RedditPost,
+  fromFile: RedditPost
+): RedditPost => {
+  // we will only restore if the entire content of the post is [removed] or [deleted]
+  if (REMOVED_REGEX.test(fromServer.data.selftext)) {
+    return {
+      ...fromServer,
+      restoredData: fromFile.data,
+      restoredFromFile: true,
+    };
+  }
+  return fromServer;
+};

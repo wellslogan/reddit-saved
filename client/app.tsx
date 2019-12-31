@@ -6,8 +6,22 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createAndPersistStore } from './configureStore';
 import { Header, TTT } from '@components';
 import { Login, AboutComponent, SavedListing } from '@views';
+import { setNightMode } from '@components/settings/settings.actions';
+import { updateGlobalCSSSetting } from '@utils/helpers';
 
 const { store, persistor } = createAndPersistStore();
+
+const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+const checkDarkMode = darkModeOn => {
+  store.dispatch(setNightMode(darkModeOn));
+  updateGlobalCSSSetting(darkModeOn, 'dark');
+};
+
+if (darkModeMediaQuery.media !== 'not all') {
+  checkDarkMode(darkModeMediaQuery.matches);
+  darkModeMediaQuery.addListener(e => checkDarkMode(e.matches));
+}
 
 const App = () => (
   <Provider store={store}>

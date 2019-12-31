@@ -49,9 +49,12 @@ const LoginComponent: React.FunctionComponent<
             </p>
           ) : (
             <>
-              <a href="/api/auth/reddit">
-                Click me to login <FontAwesomeIcon icon={faArrowCircleRight} />
-              </a>
+              <p>
+                <a href="/api/auth/reddit">
+                  Click me to login{' '}
+                  <FontAwesomeIcon icon={faArrowCircleRight} />
+                </a>
+              </p>
               <p>Or, upload a backup file to browse using the settings menu</p>
             </>
           )}

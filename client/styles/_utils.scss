@@ -23,5 +23,9 @@
 
 $valsMap: ((0, 0), ('half', 0.5em), (1, 1em), (2, 2em));
 
+@function getColor($color-name) {
+  @return var(--color-#{$color-name});
+}
+
 @include utilClasses(m, margin, $valsMap);
 @include utilClasses(p, padding, $valsMap);
