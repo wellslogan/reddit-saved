@@ -18,7 +18,7 @@
     "axios": "^0.21.1",
     "body-parser": "^1.18.3",
     "config": "^2.0.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-history-api-fallback": "^2.2.1",
     "express-session": "^1.15.6",
     "file-saver": "^2.0.0",
